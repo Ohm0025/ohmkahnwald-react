@@ -1,0 +1,27 @@
+*::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+* {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+.quill {
+  display: flex;
+  flex-direction: column-reverse;
+}
+.ql-container {
+  border: none !important;
+}
+
+.ql-editor {
+  min-height: 300px;
+  border-width: 1px !important;
+  border-radius: 5px !important;
+}
+
+.ql-toolbar {
+  border: none !important;
+}
