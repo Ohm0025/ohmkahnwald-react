@@ -24,6 +24,7 @@ const LoginPage = () => {
     rememberMe,
     setRememberMe,
     errors,
+    navigate,
   } = useLoginPage();
 
   return (
@@ -37,7 +38,7 @@ const LoginPage = () => {
           align="stretch"
           backgroundColor={useColorModeValue("white", "gray.900")}
           p={8}
-          borderRadius="md"
+          borderradius="md"
           boxShadow="md"
         >
           <Heading as="h1" size="xl" textAlign="center">
@@ -89,7 +90,11 @@ const LoginPage = () => {
             </Button>
             <Text textAlign="center">
               Don't have an account?{" "}
-              <Button variant="link" colorScheme="blue">
+              <Button
+                variant="link"
+                colorScheme="blue"
+                onClick={() => navigate("/register")}
+              >
                 Sign up
               </Button>
             </Text>

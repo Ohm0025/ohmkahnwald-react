@@ -49,11 +49,11 @@ const CreatePostPage = () => {
           align="stretch"
           backgroundColor={useColorModeValue("gray.50", "gray.900")}
           p={8}
-          borderRadius="md"
+          borderradius="md"
           boxShadow="md"
         >
           <Heading as="h1" size="xl" textAlign="center">
-            Create a New Post
+            Create a New Blog
           </Heading>
           <form onSubmit={handleSubmit}>
             <VStack spacing={6} align="stretch">
@@ -63,7 +63,7 @@ const CreatePostPage = () => {
                   id="title"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
-                  placeholder="Enter post title"
+                  placeholder="Enter blog title"
                   borderColor={errors.title ? "red.500" : "inherit"}
                 />
                 <FormErrorMessage>{errors.title}</FormErrorMessage>
@@ -74,12 +74,12 @@ const CreatePostPage = () => {
                 <Box
                   borderColor={errors.content ? "red.500" : "inherit"}
                   borderWidth={0}
-                  borderRadius="md"
+                  borderradius="md"
                 >
                   <PostEditor
                     content={content}
                     setContent={setContent}
-                    placeholder="Write your post content here"
+                    placeholder="Write your blog content here"
                   />
                 </Box>
                 <FormErrorMessage>{errors.content}</FormErrorMessage>
@@ -101,7 +101,7 @@ const CreatePostPage = () => {
                     <Tag
                       key={index}
                       size="md"
-                      borderRadius="full"
+                      borderradius="full"
                       variant="solid"
                       colorScheme="blue"
                     >
@@ -113,7 +113,7 @@ const CreatePostPage = () => {
               </FormControl>
 
               <FormControl>
-                <FormLabel htmlFor="image">Featured Image</FormLabel>
+                <FormLabel htmlFor="image">Blog Thumbnail</FormLabel>
                 <Input
                   type="file"
                   id="image"

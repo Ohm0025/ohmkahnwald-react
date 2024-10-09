@@ -11,9 +11,11 @@ import {
 } from "@chakra-ui/react";
 import { SunIcon, MoonIcon } from "lucide-react";
 import HeaderDropdownMenu from "./DropdownHeader";
+import useUser from "../stores/user";
 
 const Header = () => {
   const { colorMode, toggleColorMode } = useColorMode();
+  const { userObj } = useUser();
 
   return (
     <Box
@@ -24,20 +26,22 @@ const Header = () => {
     >
       <Container maxW="container.xl">
         <Flex justify="space-between" align="center">
-          <Heading as="h1" size="lg">
-            Blog Name
-          </Heading>
-          <Stack
-            direction="row"
-            spacing={4}
-            alignItems={"center"}
-            display={{ base: "none", md: "flex" }}
-          >
-            <Link href="/">Home</Link>
-            <Link href="user">Profile</Link>
-            <Link href="register">register</Link>
-            <Link href="login">login</Link>
-            <Link href="post-create">Post</Link>
+          <Link href="/">
+            <Heading as="h1" size={{ base: "sm", sm: "lg" }}>
+              OHMKAHNWALD
+            </Heading>
+          </Link>
+          <Stack direction="row" spacing={0} alignItems={"center"}>
+            <Box>
+              {userObj.isVerified ? (
+                <HeaderDropdownMenu
+                  userName={userObj.username}
+                  userEmail={userObj.email}
+                />
+              ) : (
+                <Link href="/login">Login</Link>
+              )}
+            </Box>
             <IconButton
               onClick={toggleColorMode}
               variant={"ghost"}
@@ -45,12 +49,6 @@ const Header = () => {
               icon={colorMode === "light" ? <MoonIcon /> : <SunIcon />}
             />
           </Stack>
-          <Box display={{ base: "block", md: "none" }}>
-            <HeaderDropdownMenu
-              userName={"JD"}
-              userEmail={"egpejrgperj@hotmail.com"}
-            />
-          </Box>
         </Flex>
       </Container>
     </Box>

@@ -1,12 +1,19 @@
 import { useState } from "react";
-import { useToast } from "@chakra-ui/react";
+import { register } from "../../api/user.api";
+import useLoading from "../../stores/loading";
+import useRegisterErrorHook from "../../utils/handleError.hook";
+import { useNavigate } from "react-router-dom";
+import useLoginSuccessHook from "../../utils/handleSuccess.hook";
 
 const useRegisterPage = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
-  const toast = useToast();
+  const { startLoading, stopLoading } = useLoading();
+  const { showToast } = useRegisterErrorHook();
+  const { showSuccess } = useLoginSuccessHook();
+  const navigate = useNavigate();
 
   const validateForm = () => {
     const newErrors = {};
@@ -30,17 +37,21 @@ const useRegisterPage = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (validateForm()) {
-      console.log("Form Submitted");
-      toast({
-        title: "Account created.",
-        description: "We've created your account for you.",
-        status: "success",
-        duration: 3000,
-        isClosable: true,
-      });
+  const handleSubmit = async (e) => {
+    try {
+      e.preventDefault();
+      if (validateForm()) {
+        startLoading("Registation Inprogress , Please wait...");
+        const data = await register({ username, email, password });
+        if (data.message) {
+          showSuccess(data.message, data.des);
+          navigate("/verify-page");
+        }
+      }
+    } catch (err) {
+      showToast(err, (errObj) => setErrors(errObj));
+    } finally {
+      stopLoading();
     }
   };
   return {
@@ -53,6 +64,7 @@ const useRegisterPage = () => {
     setEmail,
     errors,
     validateForm,
+    navigate,
   };
 };
 

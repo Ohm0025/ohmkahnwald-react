@@ -14,11 +14,6 @@ const mainRouter = createBrowserRouter([
   {
     path: "/",
     element: <HomeLayout />,
-    action: () => console.log("action start"),
-    loader: () => {
-      console.log("loader activate");
-      return "hello friend";
-    },
     children: [
       {
         path: "",
@@ -29,7 +24,7 @@ const mainRouter = createBrowserRouter([
         element: <PostPage />,
       },
       {
-        path: "user",
+        path: "profile",
         element: <UserProfilePage />,
       },
       {

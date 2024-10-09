@@ -10,32 +10,12 @@ import {
   Button,
   useToast,
 } from "@chakra-ui/react";
+import useVerifyPage from "./verifypage.hook";
 
 const VerifyEmailPage = () => {
   const [verificationCode, setVerificationCode] = useState("");
   const toast = useToast();
-
-  const handleVerification = () => {
-    // Here you would typically send the verification code to your backend
-    // For this example, we'll just show a success toast
-    if (verificationCode.length === 6) {
-      toast({
-        title: "Verification successful",
-        description: "Your email has been verified.",
-        status: "success",
-        duration: 3000,
-        isClosable: true,
-      });
-    } else {
-      toast({
-        title: "Verification failed",
-        description: "Please enter a valid 6-digit code.",
-        status: "error",
-        duration: 3000,
-        isClosable: true,
-      });
-    }
-  };
+  const { submitCode } = useVerifyPage();
 
   const handleResendCode = () => {
     // Here you would typically trigger a resend of the verification code
@@ -72,7 +52,7 @@ const VerifyEmailPage = () => {
             <PinInputField />
           </PinInput>
         </HStack>
-        <Button colorScheme="blue" onClick={handleVerification}>
+        <Button colorScheme="blue" onClick={() => submitCode(verificationCode)}>
           Verify Email
         </Button>
         <Button variant="link" onClick={handleResendCode}>

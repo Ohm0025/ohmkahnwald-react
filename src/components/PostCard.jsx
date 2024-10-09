@@ -11,9 +11,9 @@ import {
 } from "@chakra-ui/react";
 
 const PostCard = ({ post }) => (
-  <Card maxW="sm">
+  <Card maxW={"full"}>
     <CardBody>
-      <Image src={post.image} alt={post.title} borderRadius="lg" />
+      <Image src={post.image} alt={post.title} borderradius="lg" />
       <Stack mt="6" spacing="3">
         <Heading size="md">{post.title}</Heading>
         <Text>{post.excerpt}</Text>

@@ -11,13 +11,29 @@ import {
   Divider,
   IconButton,
   useToast,
+  FormControl,
+  FormLabel,
+  Input,
+  SimpleGrid,
+  CloseButton,
+  Img,
 } from "@chakra-ui/react";
-import { Heart, MessageCircle, Share } from "lucide-react";
+
+import { Heart, MessageCircle, Share, Image } from "lucide-react";
+import useSocialPage from "./socialpage.hook";
 
 const SocialPage = () => {
   const [posts, setPosts] = useState([]);
-  const [newPost, setNewPost] = useState("");
   const toast = useToast();
+
+  const {
+    handleImageUpload,
+    removeImage,
+    handleSubmit,
+    images,
+    newPost,
+    setNewPost,
+  } = useSocialPage();
 
   const handlePostSubmit = () => {
     if (newPost.trim()) {
@@ -52,29 +68,73 @@ const SocialPage = () => {
   return (
     <Box maxWidth="600px" margin="auto" mt={8} p={4}>
       <VStack spacing={6} align="stretch">
-        <Heading as="h1" size="xl" textAlign="center">
-          Social Feed
+        <Heading as="h1" size="lg" textAlign="center">
+          Board Social
         </Heading>
 
         {/* Post creation form */}
-        <Box borderWidth={1} borderRadius="lg" p={4}>
+        <Box borderWidth={1} borderradius="lg" p={4}>
           <Textarea
             value={newPost}
             onChange={(e) => setNewPost(e.target.value)}
             placeholder="What's on your mind?"
             resize="vertical"
           />
-          <Button mt={2} colorScheme="blue" onClick={handlePostSubmit}>
-            Post
-          </Button>
+          {images.length > 0 && (
+            <SimpleGrid columns={images.length > 1 ? 2 : 1} spacing={2}>
+              {images.map((img, index) => (
+                <Box key={index} position="relative">
+                  <Img
+                    src={img}
+                    onClick={() => {
+                      console.log(img);
+                    }}
+                    alt={`Upload preview ${index + 1}`}
+                    borderradius="md"
+                  />
+                  <CloseButton
+                    size="sm"
+                    position="absolute"
+                    top={1}
+                    right={1}
+                    onClick={() => removeImage(index)}
+                  />
+                </Box>
+              ))}
+            </SimpleGrid>
+          )}
+          <HStack>
+            <FormControl w="auto">
+              <FormLabel htmlFor="image-upload" mb="0">
+                <IconButton
+                  as="span"
+                  aria-label="Upload images"
+                  icon={<Image />}
+                  variant="ghost"
+                  cursor="pointer"
+                />
+              </FormLabel>
+              <Input
+                id="image-upload"
+                type="file"
+                accept="image/*"
+                onChange={handleImageUpload}
+                multiple
+                display="none"
+              />
+            </FormControl>
+            <Button mt={2} colorScheme="blue" onClick={handleSubmit}>
+              Post
+            </Button>
+          </HStack>
         </Box>
 
         {/* Posts feed */}
         <VStack spacing={4} align="stretch">
           {posts.map((post) => (
-            <Box key={post.id} borderWidth={1} borderRadius="lg" p={4}>
+            <Box key={post.id} borderWidth={1} borderradius="lg" p={4}>
               <HStack spacing={4} mb={2}>
-                <Avatar name={post.author} src="https://bit.ly/broken-link" />
+                <Avatar name={post.author} src={""} />
                 <VStack align="start" spacing={0}>
                   <Text fontWeight="bold">{post.author}</Text>
                   <Text fontSize="sm" color="gray.500">

@@ -9,7 +9,12 @@ import {
 import { EditIcon, ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 
 const ProfileHeader = ({ user, onEditProfile }) => (
-  <HStack spacing={8} align="center" w="full">
+  <HStack
+    spacing={8}
+    align="center"
+    w="full"
+    flexDirection={{ base: "column", sm: "row" }}
+  >
     <Avatar size="2xl" name={user.name} src={user.avatar} />
     <VStack align="start" spacing={2}>
       <Heading as="h2" size="xl">

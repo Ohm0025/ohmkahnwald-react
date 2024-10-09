@@ -23,6 +23,7 @@ const RegisterPage = () => {
     setPassword,
     email,
     setEmail,
+    navigate,
   } = useRegisterPage();
 
   return (
@@ -36,7 +37,7 @@ const RegisterPage = () => {
           align="stretch"
           backgroundColor={useColorModeValue("white", "gray.900")}
           p={8}
-          borderRadius="md"
+          borderradius="md"
           boxShadow="md"
         >
           <Heading as="h1" size="xl" textAlign="center">
@@ -87,7 +88,11 @@ const RegisterPage = () => {
           </form>
           <Text textAlign="center">
             Already have an account?{" "}
-            <Button variant="link" colorScheme="blue">
+            <Button
+              variant="link"
+              colorScheme="blue"
+              onClick={() => navigate("/login")}
+            >
               Log in
             </Button>
           </Text>

@@ -65,7 +65,7 @@ const ChatPage = () => {
             <Box
               key={chat.id}
               p={2}
-              borderRadius="md"
+              borderradius="md"
               cursor="pointer"
               bg={selectedChat?.id === chat.id ? bgColor : "transparent"}
               _hover={{ bg: hoverColor }}
@@ -107,7 +107,7 @@ const ChatPage = () => {
                     alignSelf={msg.sender === "me" ? "flex-end" : "flex-start"}
                     bg={msg.sender === "me" ? "blue.500" : bgColor}
                     color={msg.sender === "me" ? "white" : "black"}
-                    borderRadius="lg"
+                    borderradius="lg"
                     p={2}
                     maxW="70%"
                   >
