@@ -3,20 +3,8 @@ import { Box } from "@chakra-ui/react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import LoadingSpinner from "../components/LoadingSpinner";
-import { useEffect } from "react";
-import useHomeLayout from "./homelayout.hook";
 
 const HomeLayout = () => {
-  const { fetchUserData, cookies, fetchCookies } = useHomeLayout();
-
-  useEffect(() => {
-    fetchCookies();
-  }, []);
-
-  useEffect(() => {
-    fetchUserData();
-  }, [cookies]);
-
   return (
     <Box
       minW={"320px"}

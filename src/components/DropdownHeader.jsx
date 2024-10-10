@@ -11,17 +11,13 @@ import {
   Divider,
   useColorModeValue,
   HStack,
-  IconButton,
-  useColorMode,
 } from "@chakra-ui/react";
-import { SunIcon, MoonIcon } from "lucide-react";
 import { User, Settings, HelpCircle, LogOut } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 const HeaderDropdownMenu = ({ userName, userEmail }) => {
   const bgColor = useColorModeValue("white", "gray.800");
   const hoverColor = useColorModeValue("gray.100", "gray.700");
-  const { colorMode, toggleColorMode } = useColorMode();
   const navigate = useNavigate();
 
   return (

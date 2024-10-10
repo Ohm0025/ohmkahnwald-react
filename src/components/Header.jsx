@@ -11,11 +11,16 @@ import {
 } from "@chakra-ui/react";
 import { SunIcon, MoonIcon } from "lucide-react";
 import HeaderDropdownMenu from "./DropdownHeader";
-import useUser from "../stores/user";
+import { useUser } from "../contexts/userContext";
+import { useEffect } from "react";
 
 const Header = () => {
   const { colorMode, toggleColorMode } = useColorMode();
-  const { userObj } = useUser();
+  const { user } = useUser();
+
+  useEffect(() => {
+    console.log(user);
+  }, [user]);
 
   return (
     <Box
@@ -33,10 +38,10 @@ const Header = () => {
           </Link>
           <Stack direction="row" spacing={0} alignItems={"center"}>
             <Box>
-              {userObj.isVerified ? (
+              {user && user.isVerified ? (
                 <HeaderDropdownMenu
-                  userName={userObj.username}
-                  userEmail={userObj.email}
+                  userName={user.username}
+                  userEmail={user.email}
                 />
               ) : (
                 <Link href="/login">Login</Link>
