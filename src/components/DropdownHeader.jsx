@@ -14,12 +14,15 @@ import {
 } from "@chakra-ui/react";
 import { User, Settings, HelpCircle, LogOut } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { logout } from "../api/user.api";
+import { removeStoredUserData } from "../utils/cacheHandle";
+import { useUser } from "../contexts/userContext";
 
 const HeaderDropdownMenu = ({ userName, userEmail }) => {
   const bgColor = useColorModeValue("white", "gray.800");
   const hoverColor = useColorModeValue("gray.100", "gray.700");
   const navigate = useNavigate();
-
+  const { setUser } = useUser();
   return (
     <Menu>
       <MenuButton as={Button} colorScheme={"none"} p={0}>
@@ -75,7 +78,16 @@ const HeaderDropdownMenu = ({ userName, userEmail }) => {
           Friend
         </MenuItem>
         <Divider />
-        <MenuItem icon={<LogOut size={18} />} _hover={{ bg: hoverColor }}>
+        <MenuItem
+          icon={<LogOut size={18} />}
+          _hover={{ bg: hoverColor }}
+          onClick={async () => {
+            await logout();
+            removeStoredUserData();
+            setUser(null);
+            navigate("/");
+          }}
+        >
           Log Out
         </MenuItem>
       </MenuList>

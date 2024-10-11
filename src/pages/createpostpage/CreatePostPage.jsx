@@ -47,7 +47,7 @@ const CreatePostPage = () => {
         <VStack
           spacing={8}
           align="stretch"
-          backgroundColor={useColorModeValue("gray.50", "gray.900")}
+          backgroundColor={useColorModeValue("white", "gray.900")}
           p={8}
           borderradius="md"
           boxShadow="md"

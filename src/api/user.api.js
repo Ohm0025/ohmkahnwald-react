@@ -5,6 +5,11 @@ export const login = async (email, password) => {
   return res.data;
 };
 
+export const logout = async () => {
+  const res = await api.get("/auth/logout");
+  return res.data;
+};
+
 export const register = async (registerObj) => {
   const res = await api.post("/user/register", registerObj);
   return res.data;

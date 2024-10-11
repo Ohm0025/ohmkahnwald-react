@@ -2,8 +2,7 @@ import { useToast } from "@chakra-ui/react";
 
 const useRegisterErrorHook = () => {
   const toast = useToast();
-  const showToast = (err, cb) => {
-    console.log(err);
+  const showToast = (err, cb = () => {}) => {
     let des = "";
     let title = "";
 

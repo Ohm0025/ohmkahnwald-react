@@ -18,10 +18,6 @@ const Header = () => {
   const { colorMode, toggleColorMode } = useColorMode();
   const { user } = useUser();
 
-  useEffect(() => {
-    console.log(user);
-  }, [user]);
-
   return (
     <Box
       as="header"

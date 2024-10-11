@@ -1,8 +1,6 @@
 import dynamic from "next/dynamic";
 import "react-quill/dist/quill.snow.css";
 
-const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
-
 const modules = {
   toolbar: [
     [{ header: [1, 2, false] }],
@@ -31,12 +29,14 @@ const formats = [
   "underline",
   "strike",
   "blockquote",
+  "align",
   "list",
   "bullet",
   "indent",
   "link",
   "image",
 ];
+const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 
 const PostEditor = ({ content, setContent, placeholder }) => {
   return (

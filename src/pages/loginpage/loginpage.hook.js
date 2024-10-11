@@ -4,6 +4,8 @@ import useLoginSuccessHook from "../../utils/handleSuccess.hook";
 import { useNavigate } from "react-router-dom";
 import useLoading from "../../stores/loading";
 import useRegisterErrorHook from "../../utils/handleError.hook";
+import { saveStoredUserData } from "../../utils/cacheHandle";
+import { useUser } from "../../contexts/userContext";
 
 const useLoginPage = () => {
   const [email, setEmail] = useState("");
@@ -14,6 +16,7 @@ const useLoginPage = () => {
   const { showToast } = useRegisterErrorHook();
   const navigate = useNavigate();
   const { startLoading, stopLoading } = useLoading();
+  const { setUser } = useUser();
 
   const validateForm = () => {
     const newErrors = {};
@@ -38,6 +41,18 @@ const useLoginPage = () => {
         startLoading("Login Inprogress , Please wait...");
         const data = await login(email, password);
         if (data.success) {
+          saveStoredUserData({
+            username: data.username,
+            email: data.email,
+            isVerified: data.isVerified,
+          });
+          setUser(() => {
+            return {
+              username: data.username,
+              email: data.email,
+              isVerified: data.isVerified,
+            };
+          });
           showSuccess(data.message, data.des);
           navigate("/");
         }

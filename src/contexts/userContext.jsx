@@ -2,6 +2,7 @@ import { createContext, useContext, useState } from "react";
 import { getUser } from "../api/user.api";
 import useLoading from "../stores/loading";
 import { getStoredUserData, saveStoredUserData } from "../utils/cacheHandle";
+import useRegisterErrorHook from "../utils/handleError.hook";
 
 const UserContext = createContext();
 
@@ -16,6 +17,7 @@ export const useUser = function () {
 export default function UserProvider({ children }) {
   const [user, setUser] = useState(() => getStoredUserData());
   const { startLoading, stopLoading } = useLoading();
+  const { showToast } = useRegisterErrorHook();
 
   const fetchUserData = async () => {
     try {
@@ -34,13 +36,14 @@ export default function UserProvider({ children }) {
       saveStoredUserData({});
       return;
     } catch (err) {
+      showToast(err);
     } finally {
       stopLoading();
     }
   };
 
   return (
-    <UserContext.Provider value={{ user, fetchUserData }}>
+    <UserContext.Provider value={{ user, setUser, fetchUserData }}>
       {children}
     </UserContext.Provider>
   );
