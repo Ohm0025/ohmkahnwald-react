@@ -23,6 +23,42 @@
   font-size: 0.95rem;
 }
 
+.ql-editor > p img {
+  display: inline;
+}
+
 .ql-toolbar {
   border: none !important;
+}
+
+@media only screen and (max-width: 500px) {
+  .ql-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .ql-snow .ql-picker.ql-header {
+    width: 50px;
+  }
+  .ql-toolbar.ql-snow {
+    padding: 0;
+  }
+  .ql-toolbar.ql-snow .ql-formats {
+    margin-right: 0px;
+  }
+  .ql-toolbar button svg {
+    height: 50% !important;
+  }
+  .ql-snow .ql-picker {
+    font-size: 10px;
+  }
+  .ql-picker-label {
+    width: 60% !important;
+    padding-left: 0 !important;
+  }
+  .ql-snow .ql-picker:not(.ql-color-picker):not(.ql-icon-picker) svg {
+    width: 10px;
+    margin-top: -5px;
+    right: -12px;
+  }
 }

@@ -1,0 +1,20 @@
+export const contentStyles = {
+  h1: { fontSize: "4xl", fontWeight: "bold", mb: 6, lineHeight: 1.2 },
+  h2: { fontSize: "2xl", fontWeight: "bold", mb: 4, mt: 8 },
+  p: { mb: 4, lineHeight: 1.8 },
+  "ul, ol": { ml: 6, mb: 4 },
+  li: { mb: 2 },
+  a: { color: "blue.500", textDecoration: "underline" },
+  img: { maxWidth: "100%", height: "auto", my: 6 },
+  blockquote: {
+    borderLeft: "4px solid",
+    borderColor: "gray.300",
+    pl: 4,
+    py: 2,
+    my: 4,
+    fontStyle: "italic",
+  },
+  ".ql-align-center": { textAlign: "center" },
+  ".ql-align-right": { textAlign: "right" },
+  ".ql-align-justify": { textAlign: "justify" },
+};

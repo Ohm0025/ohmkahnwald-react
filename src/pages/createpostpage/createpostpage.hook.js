@@ -1,5 +1,8 @@
 import { useState } from "react";
-import { useToast } from "@chakra-ui/react";
+import { createPostBlog } from "../../api/postBlog.api";
+import useLoginSuccessHook from "../../utils/handleSuccess.hook";
+import useCurrentPost from "../../stores/currentPost";
+import { useNavigate } from "react-router-dom";
 
 const useCreatePostPage = () => {
   const [title, setTitle] = useState("");
@@ -8,7 +11,9 @@ const useCreatePostPage = () => {
   const [currentTag, setCurrentTag] = useState("");
   const [image, setImage] = useState(null);
   const [errors, setErrors] = useState({});
-  const toast = useToast();
+  const { setCurrentPost, setCurrentPostBlogId } = useCurrentPost();
+  const navigate = useNavigate();
+  const { showSuccess } = useLoginSuccessHook();
 
   const validateForm = () => {
     const newErrors = {};
@@ -22,18 +27,21 @@ const useCreatePostPage = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (validateForm()) {
-      // Here you would typically send the post data to your backend
-      console.log("Post submitted:", { title, content, tags, image });
-      toast({
-        title: "Post created",
-        description: "Your post has been successfully created.",
-        status: "success",
-        duration: 3000,
-        isClosable: true,
+      const data = await createPostBlog({
+        title,
+        content,
+        tags,
+        thumbnail: image,
       });
+      if (data.post) {
+        showSuccess("Create Blog Success", "now your blog ready to read");
+        setCurrentPost(data.post);
+        setCurrentPostBlogId(data.post.postBlogId);
+        navigate("/post");
+      }
     }
   };
 
@@ -71,6 +79,9 @@ const useCreatePostPage = () => {
     handleSubmit,
     errors,
     tags,
+    currentTag,
+    setCurrentTag,
+    setImage,
   };
 };
 

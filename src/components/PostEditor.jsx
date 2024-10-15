@@ -1,42 +1,48 @@
 import dynamic from "next/dynamic";
+import ReactQuill, { Quill } from "react-quill";
+import ImageResize from "quill-image-resize-module-react";
+import { ImageDrop } from "quill-image-drop-module";
 import "react-quill/dist/quill.snow.css";
+
+Quill.register("modules/imageResize", ImageResize);
+Quill.register("modules/imageDrop", ImageDrop);
 
 const modules = {
   toolbar: [
     [{ header: [1, 2, false] }],
-    ["bold", "italic", "underline", "strike", "blockquote"],
     [
       { align: "" },
       { align: "center" },
       { align: "right" },
       { align: "justify" },
     ],
-    [
-      { list: "ordered" },
-      { list: "bullet" },
-      { indent: "-1" },
-      { indent: "+1" },
-    ],
+    ["bold", "italic", "underline", "blockquote"],
+    [{ list: "ordered" }, { list: "bullet" }],
     ["link", "image"],
-    ["clean"],
   ],
+  clipboard: {
+    // toggle to add extra line breaks when pasting HTML:
+    matchVisual: false,
+  },
+  imageResize: {
+    parchment: Quill.import("parchment"),
+    modules: ["Resize", "DisplaySize", "Toolbar"],
+  },
+  imageDrop: true,
 };
 
 const formats = [
   "header",
+  "align",
   "bold",
   "italic",
   "underline",
-  "strike",
   "blockquote",
-  "align",
   "list",
   "bullet",
-  "indent",
   "link",
   "image",
 ];
-const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 
 const PostEditor = ({ content, setContent, placeholder }) => {
   return (
