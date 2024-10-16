@@ -1,12 +1,11 @@
 import { Box, Image, Text } from "@chakra-ui/react";
-
+import { contentStyles } from "../utils/styleObj";
 const PostContent = ({ content }) => (
-  <Box mb={12}>
-    <Image src="/api/placeholder/1200/600" alt="Blog post main image" mb={8} />
-    <Text fontSize="lg" lineHeight="tall">
-      {content}
-    </Text>
-  </Box>
+  <Box
+    className="blog-preview"
+    dangerouslySetInnerHTML={{ __html: content }}
+    sx={contentStyles}
+  />
 );
 
 export default PostContent;

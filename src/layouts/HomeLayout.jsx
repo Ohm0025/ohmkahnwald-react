@@ -8,7 +8,7 @@ const HomeLayout = () => {
   return (
     <Box
       minW={"320px"}
-      w={{ base: "100%", sm: "100%", md: "100%", lg: "720px" }}
+      w={{ base: "100%", sm: "100%", md: "100%", lg: "900px" }}
       margin={"auto"}
     >
       <Header />

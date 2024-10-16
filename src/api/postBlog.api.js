@@ -6,7 +6,7 @@ export const createPostBlog = async (postObj) => {
 };
 
 export const getCurrentPost = async (postId) => {
-  const res = await api.get("/postBlog" + "?postBlogId=" + postId);
+  const res = await api.get("/postBlog/" + postId);
   return res.data;
 };
 

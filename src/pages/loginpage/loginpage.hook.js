@@ -4,13 +4,18 @@ import useLoginSuccessHook from "../../utils/handleSuccess.hook";
 import { useNavigate } from "react-router-dom";
 import useLoading from "../../stores/loading";
 import useRegisterErrorHook from "../../utils/handleError.hook";
-import { saveStoredUserData } from "../../utils/cacheHandle";
+import {
+  removeLogin,
+  saveStoredUserData,
+  setLogin,
+} from "../../utils/cacheHandle";
 import { useUser } from "../../contexts/userContext";
 
 const useLoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
+  const [showPass, setShowPass] = useState(false);
   const [errors, setErrors] = useState({});
   const { showSuccess } = useLoginSuccessHook();
   const { showToast } = useRegisterErrorHook();
@@ -41,6 +46,11 @@ const useLoginPage = () => {
         startLoading("Login Inprogress , Please wait...");
         const data = await login(email, password);
         if (data.success) {
+          if (rememberMe) {
+            setLogin({ email, password });
+          } else {
+            removeLogin();
+          }
           saveStoredUserData({
             username: data.username,
             email: data.email,
@@ -73,6 +83,8 @@ const useLoginPage = () => {
     setRememberMe,
     errors,
     navigate,
+    showPass,
+    setShowPass,
   };
 };
 

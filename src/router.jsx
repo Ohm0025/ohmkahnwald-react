@@ -20,7 +20,7 @@ const mainRouter = createBrowserRouter([
         element: <HomePage />,
       },
       {
-        path: "post",
+        path: "post/:postBlogId",
         element: <PostPage />,
       },
       {

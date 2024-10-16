@@ -11,8 +11,14 @@ import {
   Text,
   Checkbox,
   useColorModeValue,
+  InputGroup,
+  InputRightElement,
+  background,
 } from "@chakra-ui/react";
+import { Eye, EyeOff } from "lucide-react";
 import useLoginPage from "./loginpage.hook";
+import { useEffect } from "react";
+import { getRememberLogin } from "../../utils/cacheHandle";
 
 const LoginPage = () => {
   const {
@@ -21,11 +27,23 @@ const LoginPage = () => {
     setEmail,
     password,
     setPassword,
+    showPass,
+    setShowPass,
     rememberMe,
     setRememberMe,
     errors,
     navigate,
   } = useLoginPage();
+
+  useEffect(() => {
+    const storedEmail = getRememberLogin();
+    if (!storedEmail) {
+      return;
+    }
+    setEmail(storedEmail.email);
+    setPassword(storedEmail.password);
+    setRememberMe(true);
+  }, []);
 
   return (
     <Box
@@ -60,14 +78,28 @@ const LoginPage = () => {
               </FormControl>
               <FormControl isInvalid={!!errors.password}>
                 <FormLabel htmlFor="password">Password</FormLabel>
-                <Input
-                  id="password"
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="Enter your password"
-                  borderColor={errors.password ? "red.500" : "inherit"}
-                />
+                <InputGroup>
+                  <Input
+                    id="password"
+                    type={showPass ? "text" : "password"}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="Enter your password"
+                    borderColor={errors.password ? "red.500" : "inherit"}
+                  />
+                  <InputRightElement width={"3rem"}>
+                    <Button
+                      h="1rem"
+                      background={"none"}
+                      size="sm"
+                      p={0}
+                      _hover={{ background: "none" }}
+                      onClick={() => setShowPass(!showPass)}
+                    >
+                      {showPass ? <EyeOff /> : <Eye />}
+                    </Button>
+                  </InputRightElement>
+                </InputGroup>
                 <FormErrorMessage>{errors.password}</FormErrorMessage>
               </FormControl>
               <FormControl>

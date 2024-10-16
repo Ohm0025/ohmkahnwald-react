@@ -4,6 +4,7 @@ const EXPIRATION_EXPIRE = import.meta.env.VITE_CACHE_EXPIRE_TIME;
 const USER_POSTS = import.meta.env.VITE_CACHE_USER_POSTS;
 const USER_POSTS_RE_TIME = import.meta.env.VITE_CACHE_USER_POSTS_RE_TIME;
 const USER_POSTS_TIME = import.meta.env.VITE_CACHE_USER_POSTS_TIME;
+const STOREDLOGIN = import.meta.env.VITE_CACHE_STORED_LOGIN;
 
 export function getStoredUserData() {
   const storedUser = localStorage.getItem(CACHE_KEY);
@@ -16,6 +17,7 @@ export function getStoredUserData() {
   if (new Date().getTime() > parseInt(expirationTime)) {
     localStorage.removeItem(CACHE_KEY);
     localStorage.removeItem(EXPIRATION_KEY);
+    throw new Error("Session Timeout");
   }
 
   return JSON.parse(storedUser);
@@ -43,19 +45,19 @@ export function setUserPostsCache(userPostsArr) {
 }
 
 export function getUserPostsCache() {
+  const userPosts = localStorage.getItem(USER_POSTS);
   const expirationTime = localStorage.getItem(USER_POSTS_TIME);
+
+  if (!userPosts || !expirationTime) {
+    return null;
+  }
 
   if (new Date().getTime() > parseInt(expirationTime)) {
     localStorage.removeItem(USER_POSTS);
     localStorage.removeItem(USER_POSTS_TIME);
-    return [];
   }
 
-  const userPosts = localStorage.getItem(USER_POSTS);
-  if (userPosts !== "undefined") {
-    return JSON.parse(userPosts);
-  }
-  return null;
+  return JSON.parse(userPosts);
 }
 
 export function updateUserPostsCache(newUserPostArr) {
@@ -64,4 +66,20 @@ export function updateUserPostsCache(newUserPostArr) {
     USER_POSTS_TIME,
     new Date().getTime() + Number(USER_POSTS_RE_TIME)
   );
+}
+
+export function getRememberLogin() {
+  const storedLogin = localStorage.getItem(STOREDLOGIN);
+  if (!storedLogin) {
+    return null;
+  }
+  return JSON.parse(storedLogin);
+}
+
+export function removeLogin() {
+  localStorage.removeItem(STOREDLOGIN);
+}
+
+export function setLogin(loginObj) {
+  localStorage.setItem(STOREDLOGIN, JSON.stringify(loginObj));
 }

@@ -23,8 +23,8 @@ const PostPage = () => {
       <Container maxW="container.md" py={12}>
         <PostHeader
           title={currentPost.title}
-          author={currentPost.author}
-          date={currentPost.date}
+          author={currentPost.User.username}
+          date={currentPost.createdAt}
           readTime={currentPost.readTime}
         />
         <PostContent content={currentPost.content} />

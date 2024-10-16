@@ -8,12 +8,16 @@ const useUserPage = () => {
   const { user } = useUser();
   const [isEditing, setIsEditing] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [userPosts, setUserPosts] = useState(getUserPostsCache());
+  const [userPosts, setUserPosts] = useState(null);
   const toast = useToast();
 
   const fetchUserPosts = async () => {
     try {
-      if (!userPosts) {
+      const getUser = getUserPostsCache();
+
+      if (getUser) {
+        setUserPosts(getUser);
+      } else {
         const data = await getUserPosts();
         if (data.userPosts?.length > 0) {
           setUserPostsCache(data.userPosts);
