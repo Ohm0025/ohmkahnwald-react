@@ -14,7 +14,7 @@ import { useNavigate } from "react-router-dom";
 
 const PostCard = ({ post }) => {
   const navigate = useNavigate();
-  console.log(post);
+
   return (
     <Card maxW={"full"}>
       <CardBody p={0}>

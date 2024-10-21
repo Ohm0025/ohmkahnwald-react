@@ -1,4 +1,6 @@
+import axios from "axios";
 import api from "./configApi";
+import { api_url } from "./configApi";
 
 export const login = async (email, password) => {
   const res = await api.post("/auth/login", { email, password });
@@ -22,5 +24,10 @@ export const verifyEmail = async (code) => {
 
 export const getUser = async () => {
   const res = await api.get("/user");
+  return res.data;
+};
+
+export const updateUser = async (updatedObj) => {
+  const res = await api.patch("/user/updateProfile", { updatedObj });
   return res.data;
 };

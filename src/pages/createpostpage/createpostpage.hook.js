@@ -36,11 +36,12 @@ const useCreatePostPage = () => {
         tags,
         thumbnail: image,
       });
+      console.log(data);
       if (data.post) {
         showSuccess("Create Blog Success", "now your blog ready to read");
         setCurrentPost(data.post);
         setCurrentPostBlogId(data.post.postBlogId);
-        navigate("/post");
+        navigate("/post/" + data.post.postBlogId);
       }
     }
   };

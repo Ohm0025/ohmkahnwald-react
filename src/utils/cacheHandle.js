@@ -68,6 +68,12 @@ export function updateUserPostsCache(newUserPostArr) {
   );
 }
 
+export function removeUserPostCache() {
+  localStorage.removeItem(USER_POSTS);
+  localStorage.removeItem(USER_POSTS_TIME);
+  localStorage.removeItem(USER_POSTS_RE_TIME);
+}
+
 export function getRememberLogin() {
   const storedLogin = localStorage.getItem(STOREDLOGIN);
   if (!storedLogin) {

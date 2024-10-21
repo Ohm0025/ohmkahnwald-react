@@ -11,15 +11,18 @@ import {
   TabPanels,
   Tab,
   TabPanel,
+  Textarea,
 } from "@chakra-ui/react";
 import ProfileHeader from "../../components/ProfileHeader";
 import PostList from "../../components/PostList";
 import useUserPage from "./userpage.hook";
 import { useEffect } from "react";
+import ImageCrop from "../../components/imageCrop/ImageCrop";
 
 const UserProfilePage = () => {
   const {
     user,
+    setUser,
     isEditing,
     setIsEditing,
     postsPerPage,
@@ -43,14 +46,24 @@ const UserProfilePage = () => {
         <VStack spacing={12} align="stretch">
           {isEditing ? (
             <VStack spacing={4} align="stretch">
-              <HStack>
+              {/* <HStack>
                 <Avatar size="2xl" name={user.username} src={user.avatar} />
                 <Button>Change Picture</Button>
-              </HStack>
+                <ImageCrop
+                  onUpdate={(img) => setUser({ ...user, imgProfile: img })}
+                />
+              </HStack> */}
               <Input
                 placeholder="Username"
                 value={user.username}
-                onChange={(e) => setUser({ ...user, name: e.target.value })}
+                onChange={(e) => setUser({ ...user, username: e.target.value })}
+              />
+              <Textarea
+                placeholder="write about yourself..."
+                size={"md"}
+                resize={"vertical"}
+                value={user.bio}
+                onChange={(e) => setUser({ ...user, bio: e.target.value })}
               />
               <HStack width={"100%"}>
                 <Button onClick={handleSaveProfile} width={"100%"}>

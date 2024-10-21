@@ -3,9 +3,10 @@ import { useUser } from "../../contexts/userContext";
 import { useToast } from "@chakra-ui/react";
 import { getUserPosts } from "../../api/postBlog.api";
 import { getUserPostsCache, setUserPostsCache } from "../../utils/cacheHandle";
+import { updateUser } from "../../api/user.api";
 
 const useUserPage = () => {
-  const { user } = useUser();
+  const { user, setUser } = useUser();
   const [isEditing, setIsEditing] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [userPosts, setUserPosts] = useState(null);
@@ -38,19 +39,22 @@ const useUserPage = () => {
     setIsEditing(true);
   };
 
-  const handleSaveProfile = () => {
-    setIsEditing(false);
-    toast({
-      title: "Profile updated",
-      description: "Your profile has been successfully updated.",
-      status: "success",
-      duration: 3000,
-      isClosable: true,
-    });
+  const handleSaveProfile = async () => {
+    try {
+      const data = await updateUser(user);
+      if (data) {
+        console.log(data);
+        setIsEditing(false);
+      }
+    } catch (err) {
+      console.error(err);
+    } finally {
+    }
   };
 
   return {
     user,
+    setUser,
     isEditing,
     setIsEditing,
     totalPages,

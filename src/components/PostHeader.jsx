@@ -5,7 +5,7 @@ const PostHeader = ({ title, author, date, readTime }) => {
   const formatDate = formatDateIntl(new Date(date));
   return (
     <VStack spacing={4} align="stretch" mb={8}>
-      <Heading as="h1" size="2xl">
+      <Heading as="h1" size="2xl" mb={5}>
         {title}
       </Heading>
       <HStack spacing={4}>
@@ -14,8 +14,6 @@ const PostHeader = ({ title, author, date, readTime }) => {
           <Text fontWeight="bold">{author}</Text>
           <HStack>
             <Text color="gray.500">{formatDate}</Text>
-            <Text color="gray.500">·</Text>
-            <Text color="gray.500">{readTime} min read</Text>
           </HStack>
         </VStack>
       </HStack>

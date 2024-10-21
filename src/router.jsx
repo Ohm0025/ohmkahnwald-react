@@ -43,14 +43,14 @@ const mainRouter = createBrowserRouter([
         path: "verify-page",
         element: <VerifyEmailPage />,
       },
-      {
-        path: "social-page",
-        element: <SocialPage />,
-      },
-      {
-        path: "chat",
-        element: <ChatPage />,
-      },
+      // {
+      //   path: "social-page",
+      //   element: <SocialPage />,
+      // },
+      // {
+      //   path: "chat",
+      //   element: <ChatPage />,
+      // },
     ],
   },
 ]);

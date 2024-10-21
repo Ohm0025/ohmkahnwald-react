@@ -12,10 +12,13 @@ import {
   useColorModeValue,
   HStack,
 } from "@chakra-ui/react";
-import { User, Settings, HelpCircle, LogOut } from "lucide-react";
+import { User, Settings, HelpCircle, LogOut, PenLine } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { logout } from "../api/user.api";
-import { removeStoredUserData } from "../utils/cacheHandle";
+import {
+  removeStoredUserData,
+  removeUserPostCache,
+} from "../utils/cacheHandle";
 import { useUser } from "../contexts/userContext";
 
 const HeaderDropdownMenu = ({ userName, userEmail }) => {
@@ -54,13 +57,13 @@ const HeaderDropdownMenu = ({ userName, userEmail }) => {
           Profile
         </MenuItem>
         <MenuItem
-          icon={<Settings size={18} />}
+          icon={<PenLine size={18} />}
           _hover={{ bg: hoverColor }}
           onClick={() => navigate("/post-create")}
         >
           Create Blog
         </MenuItem>
-        <MenuItem
+        {/* <MenuItem
           icon={<HelpCircle size={18} />}
           _hover={{ bg: hoverColor }}
           onClick={() => navigate("/social-page")}
@@ -76,7 +79,7 @@ const HeaderDropdownMenu = ({ userName, userEmail }) => {
         </MenuItem>
         <MenuItem icon={<HelpCircle size={18} />} _hover={{ bg: hoverColor }}>
           Friend
-        </MenuItem>
+        </MenuItem> */}
         <Divider />
         <MenuItem
           icon={<LogOut size={18} />}
@@ -84,6 +87,7 @@ const HeaderDropdownMenu = ({ userName, userEmail }) => {
           onClick={async () => {
             await logout();
             removeStoredUserData();
+            removeUserPostCache();
             setUser(null);
             navigate("/");
           }}

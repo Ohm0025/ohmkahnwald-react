@@ -7,14 +7,14 @@ import usePostPage from "./postpage.hook";
 import useCurrentPost from "../../stores/currentPost";
 
 const PostPage = () => {
-  const { currentPost, currentPostBlogId } = useCurrentPost();
+  const { currentPost, currentPostBlogId, isLoading } = useCurrentPost();
   const { fetchCurrentPost } = usePostPage();
 
   useEffect(() => {
     fetchCurrentPost();
   }, [currentPostBlogId]);
 
-  if (!currentPost) {
+  if (!currentPost && !isLoading) {
     return <h1>Post NOT FOUND</h1>;
   }
 
@@ -23,12 +23,12 @@ const PostPage = () => {
       <Container maxW="container.md" py={12}>
         <PostHeader
           title={currentPost.title}
-          author={currentPost.User.username}
+          author={currentPost.User?.username}
           date={currentPost.createdAt}
           readTime={currentPost.readTime}
         />
         <PostContent content={currentPost.content} />
-        <CommentSection />
+        {/* <CommentSection /> */}
       </Container>
     </Box>
   );
