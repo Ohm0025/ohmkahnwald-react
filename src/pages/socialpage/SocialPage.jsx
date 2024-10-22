@@ -86,9 +86,7 @@ const SocialPage = () => {
                 <Box key={index} position="relative">
                   <Img
                     src={img}
-                    onClick={() => {
-                      console.log(img);
-                    }}
+                    onClick={() => {}}
                     alt={`Upload preview ${index + 1}`}
                     borderradius="md"
                   />

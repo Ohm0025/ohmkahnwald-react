@@ -1,4 +1,5 @@
 import useCarouselHome from "./carouselHome.hook";
+import CarouselItem from "./CarouselItem";
 import React, { useState, useEffect } from "react";
 import {
   Box,
@@ -10,71 +11,67 @@ import {
   VStack,
   Heading,
   Wrap,
+  Spinner,
 } from "@chakra-ui/react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-
-const CarouselItem = ({ title, excerpt, imageUrl }) => (
-  <Box w="full" h="full">
-    <Flex direction={{ base: "column", md: "row" }} h="full">
-      <Image
-        src={imageUrl}
-        alt={title}
-        objectFit="cover"
-        w={{ base: "full", md: "50%" }}
-        h={{ base: "200px", md: "full" }}
-      />
-      <VStack
-        w={{ base: "full", md: "50%" }}
-        h="full"
-        p={8}
-        spacing={4}
-        align="flex-start"
-        justify="center"
-      >
-        <Heading as="h2" size="xl">
-          {title}
-        </Heading>
-        <Text fontSize="lg">{excerpt}</Text>
-        <Button colorScheme="blue">Read More</Button>
-      </VStack>
-    </Flex>
-  </Box>
-);
+import { htmlToPlainText } from "../../utils/formatText";
 
 const CarouselHome = () => {
-  const { carouselItems } = useCarouselHome();
+  const { posts, fetchPosts } = useCarouselHome();
   const [currentIndex, setCurrentIndex] = useState(0);
   const bgColor = useColorModeValue("gray.500", "gray.700");
   const arrowColor = useColorModeValue("gray.800", "white");
 
   const nextSlide = () => {
     setCurrentIndex((prevIndex) =>
-      prevIndex === carouselItems.length - 1 ? 0 : prevIndex + 1
+      prevIndex === posts.length - 1 ? 0 : prevIndex + 1
     );
   };
 
   const prevSlide = () => {
     setCurrentIndex((prevIndex) =>
-      prevIndex === 0 ? carouselItems.length - 1 : prevIndex - 1
+      prevIndex === 0 ? posts.length - 1 : prevIndex - 1
     );
   };
+
+  useEffect(() => {
+    fetchPosts();
+  }, []);
 
   useEffect(() => {
     const interval = setInterval(nextSlide, 5000); // Auto-advance every 5 seconds
     return () => clearInterval(interval);
   }, []);
+
+  if (posts.length <= 0) {
+    return (
+      <Wrap
+        width={"100%"}
+        h={"500px"}
+        display={"flex"}
+        justifyContent={"center"}
+        alignItems={"center"}
+      >
+        <Spinner />
+      </Wrap>
+    );
+  }
   return (
     <Wrap width={"100%"}>
       <Box position="relative" h="500px" overflow="hidden" bg={bgColor}>
         <Flex
           transition="all 0.5s"
           ml={`-${currentIndex * 100}%`}
-          w={`${carouselItems.length * 100}%`}
+          w={`${posts.length * 100}%`}
           h="full"
         >
-          {carouselItems.map((item, index) => (
-            <Box key={index} w={`${100 / carouselItems.length}%`} h="full">
-              <CarouselItem {...item} />
+          {posts.map((item, index) => (
+            <Box key={index} w={`${100 / posts.length}%`} h="full">
+              <CarouselItem
+                title={item.title}
+                excerpt={htmlToPlainText(item.content, 20)}
+                imageUrl={item.thumbnail}
+              />
             </Box>
           ))}
         </Flex>

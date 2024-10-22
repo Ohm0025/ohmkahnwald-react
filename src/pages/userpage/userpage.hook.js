@@ -26,7 +26,7 @@ const useUserPage = () => {
         }
       }
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
   };
 
@@ -43,7 +43,7 @@ const useUserPage = () => {
     try {
       const data = await updateUser(user);
       if (data) {
-        console.log(data);
+        // console.log(data);
         setIsEditing(false);
       }
     } catch (err) {

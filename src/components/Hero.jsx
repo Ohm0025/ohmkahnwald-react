@@ -19,7 +19,7 @@ const Hero = () => (
         <Text fontSize="xl">
           Discover insightful articles on various topics.
         </Text>
-        <Button colorScheme="whiteAlpha">Read Latest Post</Button>
+        <Button colorScheme="whiteAlpha">About Us</Button>
       </VStack>
     </Container>
   </Box>

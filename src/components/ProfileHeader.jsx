@@ -14,7 +14,7 @@ import {
   Upload,
 } from "lucide-react";
 
-const ProfileHeader = ({ user, onEditProfile, isEdit }) => {
+const ProfileHeader = ({ user, onEditProfile, isEdit, cb }) => {
   return (
     <HStack
       spacing={8}
@@ -24,7 +24,7 @@ const ProfileHeader = ({ user, onEditProfile, isEdit }) => {
     >
       <Box position={"relative"}>
         <Avatar size="2xl" name={user.username} src={user.avatar} />
-        <Button
+        {/* <Button
           borderRadius={"50%"}
           position={"absolute"}
           bottom={0}
@@ -35,9 +35,10 @@ const ProfileHeader = ({ user, onEditProfile, isEdit }) => {
           _hover={{
             bg: "rgba(255, 255, 255, 0.8)",
           }}
+          onClick={cb}
         >
           {<Upload size={15} />}
-        </Button>
+        </Button> */}
       </Box>
       <VStack align="start" spacing={2}>
         <Heading as="h2" size="xl">

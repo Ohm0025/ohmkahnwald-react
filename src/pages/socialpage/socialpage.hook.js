@@ -23,7 +23,6 @@ const useSocialPage = () => {
   };
 
   const handleSubmit = () => {
-    console.log("Posting:", { newPost, images });
     // Here you would typically send this data to your backend
     setNewPost("");
     setImages([]);
