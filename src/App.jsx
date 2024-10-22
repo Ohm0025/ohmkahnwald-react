@@ -14,7 +14,7 @@ function App() {
 
   return (
     <ChakraProvider>
-      <RouterProvider router={mainRouter}></RouterProvider>;
+      <RouterProvider router={mainRouter}></RouterProvider>
     </ChakraProvider>
   );
 }

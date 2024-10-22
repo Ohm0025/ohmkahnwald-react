@@ -7,71 +7,75 @@ const USER_POSTS_TIME = import.meta.env.VITE_CACHE_USER_POSTS_TIME;
 const STOREDLOGIN = import.meta.env.VITE_CACHE_STORED_LOGIN;
 
 export function getStoredUserData() {
-  const storedUser = localStorage.getItem(CACHE_KEY);
-  const expirationTime = localStorage.getItem(EXPIRATION_KEY);
+  const storedUser = sessionStorage.getItem(CACHE_KEY);
+  const expirationTime = sessionStorage.getItem(EXPIRATION_KEY);
 
   if (!storedUser || !expirationTime) {
     return null;
   }
 
   if (new Date().getTime() > parseInt(expirationTime)) {
-    localStorage.removeItem(CACHE_KEY);
-    localStorage.removeItem(EXPIRATION_KEY);
+    sessionStorage.removeItem(CACHE_KEY);
+    sessionStorage.removeItem(EXPIRATION_KEY);
     throw new Error("Session Timeout");
   }
 
   return JSON.parse(storedUser);
 }
 
+export function getExpiredTime() {
+  return sessionStorage.getItem(EXPIRATION_KEY);
+}
+
 export function saveStoredUserData(userObj) {
-  localStorage.setItem(CACHE_KEY, JSON.stringify(userObj));
-  localStorage.setItem(
+  sessionStorage.setItem(CACHE_KEY, JSON.stringify(userObj));
+  sessionStorage.setItem(
     EXPIRATION_KEY,
     new Date().getTime() + Number(EXPIRATION_EXPIRE)
   );
 }
 
 export function removeStoredUserData() {
-  localStorage.removeItem(CACHE_KEY);
-  localStorage.removeItem(EXPIRATION_KEY);
+  sessionStorage.removeItem(CACHE_KEY);
+  sessionStorage.removeItem(EXPIRATION_KEY);
 }
 
 export function setUserPostsCache(userPostsArr) {
-  localStorage.setItem(USER_POSTS, JSON.stringify(userPostsArr));
-  localStorage.setItem(
+  sessionStorage.setItem(USER_POSTS, JSON.stringify(userPostsArr));
+  sessionStorage.setItem(
     USER_POSTS_TIME,
     new Date().getTime() + Number(USER_POSTS_RE_TIME)
   );
 }
 
 export function getUserPostsCache() {
-  const userPosts = localStorage.getItem(USER_POSTS);
-  const expirationTime = localStorage.getItem(USER_POSTS_TIME);
+  const userPosts = sessionStorage.getItem(USER_POSTS);
+  const expirationTime = sessionStorage.getItem(USER_POSTS_TIME);
 
   if (!userPosts || !expirationTime) {
     return null;
   }
 
   if (new Date().getTime() > parseInt(expirationTime)) {
-    localStorage.removeItem(USER_POSTS);
-    localStorage.removeItem(USER_POSTS_TIME);
+    sessionStorage.removeItem(USER_POSTS);
+    sessionStorage.removeItem(USER_POSTS_TIME);
   }
 
   return JSON.parse(userPosts);
 }
 
 export function updateUserPostsCache(newUserPostArr) {
-  localStorage.setItem(USER_POSTS, JSON.stringify(newUserPostArr));
-  localStorage.setItem(
+  sessionStorage.setItem(USER_POSTS, JSON.stringify(newUserPostArr));
+  sessionStorage.setItem(
     USER_POSTS_TIME,
     new Date().getTime() + Number(USER_POSTS_RE_TIME)
   );
 }
 
 export function removeUserPostCache() {
-  localStorage.removeItem(USER_POSTS);
-  localStorage.removeItem(USER_POSTS_TIME);
-  localStorage.removeItem(USER_POSTS_RE_TIME);
+  sessionStorage.removeItem(USER_POSTS);
+  sessionStorage.removeItem(USER_POSTS_TIME);
+  sessionStorage.removeItem(USER_POSTS_RE_TIME);
 }
 
 export function getRememberLogin() {

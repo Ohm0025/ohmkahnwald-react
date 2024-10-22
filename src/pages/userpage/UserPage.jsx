@@ -17,6 +17,7 @@ import ProfileHeader from "../../components/ProfileHeader";
 import PostList from "../../components/PostList";
 import useUserPage from "./userpage.hook";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import ImageCrop from "../../components/imageCrop/ImageCrop";
 
 const UserProfilePage = () => {
@@ -36,9 +37,15 @@ const UserProfilePage = () => {
     userPosts,
   } = useUserPage();
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     fetchUserPosts();
   }, [user]);
+
+  if (!user.username) {
+    navigate("/");
+  }
 
   return (
     <Box>

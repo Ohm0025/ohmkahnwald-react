@@ -30,7 +30,7 @@ const useUserPage = () => {
     }
   };
 
-  const postsPerPage = 5;
+  const postsPerPage = 6;
   const totalPages = 10;
 
   const savedPosts = [];

@@ -13,10 +13,27 @@ import { SunIcon, MoonIcon } from "lucide-react";
 import HeaderDropdownMenu from "./DropdownHeader";
 import { useUser } from "../contexts/userContext";
 import { useEffect } from "react";
+import useRegisterErrorHook from "../utils/handleError.hook";
+import { getExpiredTime, getStoredUserData } from "../utils/cacheHandle";
 
 const Header = () => {
   const { colorMode, toggleColorMode } = useColorMode();
-  const { user } = useUser();
+  const { user, setUser } = useUser();
+  const { showToast } = useRegisterErrorHook();
+
+  useEffect(() => {
+    const expirationTime = getExpiredTime();
+    if (user && new Date().getTime() > parseInt(expirationTime)) {
+      showToast("Session Time Out");
+      setUser(() => getStoredUserData());
+      navigate("/");
+    }
+    if (user && !getStoredUserData()) {
+      showToast("Session Time Out");
+      setUser(() => getStoredUserData());
+      navigate("/");
+    }
+  }, [user]);
 
   return (
     <Box
@@ -40,7 +57,7 @@ const Header = () => {
                   userEmail={user.email}
                 />
               ) : (
-                <Link href="/login">Login</Link>
+                <Link href="/login">Sign in</Link>
               )}
             </Box>
             <IconButton

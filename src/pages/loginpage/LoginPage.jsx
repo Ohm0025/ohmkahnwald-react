@@ -60,7 +60,7 @@ const LoginPage = () => {
           boxShadow="md"
         >
           <Heading as="h1" size="xl" textAlign="center">
-            Login to Your Account
+            Sign In Your Account
           </Heading>
           <form onSubmit={handleSubmit}>
             <VStack spacing={4}>
@@ -112,7 +112,7 @@ const LoginPage = () => {
                 </Checkbox>
               </FormControl>
               <Button type="submit" colorScheme="blue" width="full" mt={4}>
-                Log In
+                SIGN IN
               </Button>
             </VStack>
           </form>

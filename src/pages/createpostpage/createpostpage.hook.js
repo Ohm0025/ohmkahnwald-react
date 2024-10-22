@@ -3,6 +3,8 @@ import { createPostBlog } from "../../api/postBlog.api";
 import useLoginSuccessHook from "../../utils/handleSuccess.hook";
 import useCurrentPost from "../../stores/currentPost";
 import { useNavigate } from "react-router-dom";
+import useLoading from "../../stores/loading";
+import useRegisterErrorHook from "../../utils/handleError.hook";
 
 const useCreatePostPage = () => {
   const [title, setTitle] = useState("");
@@ -10,10 +12,13 @@ const useCreatePostPage = () => {
   const [tags, setTags] = useState([]);
   const [currentTag, setCurrentTag] = useState("");
   const [image, setImage] = useState(null);
+  const [file_set, setFile] = useState(null);
   const [errors, setErrors] = useState({});
   const { setCurrentPost, setCurrentPostBlogId } = useCurrentPost();
   const navigate = useNavigate();
   const { showSuccess } = useLoginSuccessHook();
+  const { startLoading, stopLoading } = useLoading();
+  const { showToast } = useRegisterErrorHook();
 
   const validateForm = () => {
     const newErrors = {};
@@ -29,20 +34,25 @@ const useCreatePostPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (validateForm()) {
-      const data = await createPostBlog({
-        title,
-        content,
-        tags,
-        thumbnail: image,
-      });
-      console.log(data);
-      if (data.post) {
-        showSuccess("Create Blog Success", "now your blog ready to read");
-        setCurrentPost(data.post);
-        setCurrentPostBlogId(data.post.postBlogId);
-        navigate("/post/" + data.post.postBlogId);
+    try {
+      if (validateForm()) {
+        startLoading();
+        const data = await createPostBlog({
+          title,
+          content,
+          tags,
+          thumbnail: file_set,
+        });
+
+        if (data.post) {
+          showSuccess("Create Blog Success", "now your blog ready to read");
+          setCurrentPost(data.post);
+          setCurrentPostBlogId(data.post.postBlogId);
+          navigate("/post/" + data.post.postBlogId);
+        }
       }
+    } catch (err) {
+      showToast(err.message);
     }
   };
 
@@ -60,6 +70,9 @@ const useCreatePostPage = () => {
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
+      setFile(() => {
+        return file;
+      });
       const reader = new FileReader();
       reader.onloadend = () => {
         setImage(reader.result);

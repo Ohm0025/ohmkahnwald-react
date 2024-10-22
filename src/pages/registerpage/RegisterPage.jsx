@@ -82,7 +82,7 @@ const RegisterPage = () => {
                 <FormErrorMessage>{errors.password}</FormErrorMessage>
               </FormControl>
               <Button type="submit" colorScheme="blue" width="full" mt={4}>
-                Register
+                Sign Up
               </Button>
             </VStack>
           </form>
@@ -93,7 +93,7 @@ const RegisterPage = () => {
               colorScheme="blue"
               onClick={() => navigate("/login")}
             >
-              Log in
+              Sign In
             </Button>
           </Text>
         </VStack>

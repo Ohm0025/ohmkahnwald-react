@@ -1,7 +1,11 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { getUser } from "../api/user.api";
 import useLoading from "../stores/loading";
-import { getStoredUserData, saveStoredUserData } from "../utils/cacheHandle";
+import {
+  getExpiredTime,
+  getStoredUserData,
+  saveStoredUserData,
+} from "../utils/cacheHandle";
 import useRegisterErrorHook from "../utils/handleError.hook";
 
 const UserContext = createContext();

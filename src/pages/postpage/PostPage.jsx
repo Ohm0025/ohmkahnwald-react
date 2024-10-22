@@ -1,4 +1,4 @@
-import { Box, Container } from "@chakra-ui/react";
+import { Box, Container, VStack } from "@chakra-ui/react";
 import PostHeader from "../../components/PostHeader";
 import PostContent from "../../components/PostContent";
 import CommentSection from "../../components/CommentSection";
@@ -14,23 +14,22 @@ const PostPage = () => {
     fetchCurrentPost();
   }, [currentPostBlogId]);
 
-  if (!currentPost && !isLoading) {
-    return <h1>Post NOT FOUND</h1>;
+  if (!currentPost) {
+    return <h1>Fetching Post</h1>;
   }
 
   return (
-    <Box>
-      <Container maxW="container.md" py={12}>
-        <PostHeader
-          title={currentPost.title}
-          author={currentPost.User?.username}
-          date={currentPost.createdAt}
-          readTime={currentPost.readTime}
-        />
-        <PostContent content={currentPost.content} />
-        {/* <CommentSection /> */}
-      </Container>
-    </Box>
+    <VStack width={"100%"} py={12} px={{ base: 5, lg: 1 }}>
+      <PostHeader
+        title={currentPost.title}
+        author={currentPost.User?.username}
+        thumbnail={currentPost.thumbnail}
+        date={currentPost.createdAt}
+        readTime={currentPost.readTime}
+      />
+      <PostContent content={currentPost.content} />
+      {/* <CommentSection /> */}
+    </VStack>
   );
 };
 

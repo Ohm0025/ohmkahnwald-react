@@ -27,7 +27,7 @@ import { useUser } from "../../contexts/userContext";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 
-const CreatePostPage = () => {
+const CreatePostPage = (edited) => {
   const {
     handleSubmit,
     errors,
@@ -69,7 +69,7 @@ const CreatePostPage = () => {
         boxShadow="md"
       >
         <Heading as="h1" size="xl" textAlign="center">
-          Create a New Blog
+          {edited ? "Edit Blog" : "Create a New Blog"}
         </Heading>
         <form onSubmit={handleSubmit}>
           <VStack spacing={6} align="stretch">

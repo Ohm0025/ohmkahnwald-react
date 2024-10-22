@@ -8,22 +8,38 @@ import {
   Text,
   Divider,
   ButtonGroup,
+  Box,
+  useBreakpointValue,
 } from "@chakra-ui/react";
 import imageDefault from "@/assets/blogDefault.png";
 import { useNavigate } from "react-router-dom";
 
 const PostCard = ({ post }) => {
   const navigate = useNavigate();
-
+  const aspectRatio = 16 / 9;
   return (
     <Card maxW={"full"}>
       <CardBody p={0}>
-        <Image
-          src={post.image || imageDefault}
-          alt={post.title}
-          borderTopLeftRadius={"lg"}
-          borderTopRightRadius={"lg"}
-        />
+        <Box
+          position="relative"
+          width="100%"
+          paddingBottom={`${(1 / aspectRatio) * 100}%`}
+          overflow="hidden"
+        >
+          <Image
+            src={post.thumbnail || imageDefault}
+            alt={post.title}
+            borderTopLeftRadius={"lg"}
+            borderTopRightRadius={"lg"}
+            fallbackSrc={imageDefault}
+            position="absolute"
+            top="0"
+            left="0"
+            width="100%"
+            height="100%"
+            objectFit="cover"
+          />
+        </Box>
         <Stack mt="6" spacing="3">
           <Heading size="md" textAlign={"center"}>
             {post.title}
@@ -51,11 +67,19 @@ const PostCard = ({ post }) => {
         <Button
           variant="solid"
           colorScheme="blue"
-          onClick={() => navigate("/post/" + post.postBlogId)}
+          onClick={() =>
+            window.open("/post/" + post.postBlogId, "_blank").focus()
+          }
         >
           View
         </Button>
-        <Button variant="ghost" colorScheme="blue">
+        <Button
+          variant="ghost"
+          colorScheme="blue"
+          onClick={() => {
+            navigate("/post-edit/" + post.postBlogId);
+          }}
+        >
           Edit
         </Button>
       </ButtonGroup>

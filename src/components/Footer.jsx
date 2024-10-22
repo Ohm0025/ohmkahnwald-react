@@ -17,7 +17,7 @@ const Footer = () => {
           justify="space-between"
           align="center"
         >
-          <Text>&copy; 2024 Blog Name. All rights reserved.</Text>
+          <Text>&copy; 2024 OHMKAHNWALD . All rights reserved.</Text>
           <Stack direction="row" spacing={4} mt={{ base: 4, md: 0 }}>
             <Link href="#">Privacy Policy</Link>
             <Link href="#">Terms of Service</Link>

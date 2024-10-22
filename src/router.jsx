@@ -40,6 +40,10 @@ const mainRouter = createBrowserRouter([
         element: <CreatePostPage />,
       },
       {
+        path: "post-edit/:postBlogId",
+        element: <CreatePostPage edited={true} />,
+      },
+      {
         path: "verify-page",
         element: <VerifyEmailPage />,
       },
