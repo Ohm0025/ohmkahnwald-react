@@ -35,3 +35,19 @@ export const getUserPosts = async () => {
   const res = await api.get("/postBlog/getUserPosts");
   return res.data;
 };
+
+export const editPostBlog = async (editedPost, postBlogId) => {
+  const formData = new FormData();
+  console.log(editedPost);
+  formData.append("title", editedPost.title);
+  formData.append("content", editedPost.content);
+  formData.append("image", editedPost.thumbnail);
+  const res = await axios({
+    method: "patch",
+    url: `${import.meta.env.VITE_API_URL}/postBlog/${postBlogId}`,
+    data: formData,
+    headers: { "Content-Type": "multipart/form-data" },
+    withCredentials: true,
+  });
+  return res.data;
+};

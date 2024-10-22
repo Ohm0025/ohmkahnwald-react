@@ -27,7 +27,7 @@ import { useUser } from "../../contexts/userContext";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 
-const CreatePostPage = (edited) => {
+const CreatePostPage = ({ edited }) => {
   const {
     handleSubmit,
     errors,
@@ -43,7 +43,8 @@ const CreatePostPage = (edited) => {
     tags,
     image,
     setImage,
-  } = useCreatePostPage();
+    fetchOriginalPost,
+  } = useCreatePostPage(edited);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { user } = useUser();
@@ -54,6 +55,12 @@ const CreatePostPage = (edited) => {
       navigate("/");
     }
   }, [user]);
+
+  useEffect(() => {
+    if (edited) {
+      fetchOriginalPost();
+    }
+  }, [edited]);
 
   return (
     <Box

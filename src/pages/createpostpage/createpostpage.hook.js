@@ -1,12 +1,16 @@
 import { useState } from "react";
-import { createPostBlog } from "../../api/postBlog.api";
+import {
+  createPostBlog,
+  editPostBlog,
+  getCurrentPost,
+} from "../../api/postBlog.api";
 import useLoginSuccessHook from "../../utils/handleSuccess.hook";
 import useCurrentPost from "../../stores/currentPost";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import useLoading from "../../stores/loading";
 import useRegisterErrorHook from "../../utils/handleError.hook";
 
-const useCreatePostPage = () => {
+const useCreatePostPage = (edited) => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [tags, setTags] = useState([]);
@@ -19,6 +23,23 @@ const useCreatePostPage = () => {
   const { showSuccess } = useLoginSuccessHook();
   const { startLoading, stopLoading } = useLoading();
   const { showToast } = useRegisterErrorHook();
+  const { postBlogId } = useParams();
+
+  const fetchOriginalPost = async () => {
+    try {
+      startLoading();
+      const data = await getCurrentPost(postBlogId);
+      if (data) {
+        setTitle(data.post?.title);
+        setContent(data.post?.content);
+        setImage(data.post?.thumbnail);
+      }
+    } catch (err) {
+      showToast(err.message);
+    } finally {
+      stopLoading();
+    }
+  };
 
   const validateForm = () => {
     const newErrors = {};
@@ -35,24 +56,38 @@ const useCreatePostPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      let data;
       if (validateForm()) {
         startLoading();
-        const data = await createPostBlog({
-          title,
-          content,
-          tags,
-          thumbnail: file_set,
-        });
+        if (edited) {
+          data = await editPostBlog(
+            {
+              title,
+              content,
+              thumbnail: file_set || (edited ? image : file_set),
+            },
+            postBlogId
+          );
+        } else {
+          data = await createPostBlog({
+            title,
+            content,
+            tags,
+            thumbnail: file_set,
+          });
+        }
 
         if (data.post) {
           showSuccess("Create Blog Success", "now your blog ready to read");
           setCurrentPost(data.post);
           setCurrentPostBlogId(data.post.postBlogId);
-          navigate("/post/" + data.post.postBlogId);
+          window.open("/post/" + data.post.postBlogId, "_self");
         }
       }
     } catch (err) {
       showToast(err.message);
+    } finally {
+      stopLoading();
     }
   };
 
@@ -96,6 +131,7 @@ const useCreatePostPage = () => {
     currentTag,
     setCurrentTag,
     setImage,
+    fetchOriginalPost,
   };
 };
 

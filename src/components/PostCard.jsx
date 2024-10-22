@@ -77,7 +77,8 @@ const PostCard = ({ post }) => {
           variant="ghost"
           colorScheme="blue"
           onClick={() => {
-            navigate("/post-edit/" + post.postBlogId);
+            // navigate();
+            window.open("/post-edit/" + post.postBlogId, "_self");
           }}
         >
           Edit
