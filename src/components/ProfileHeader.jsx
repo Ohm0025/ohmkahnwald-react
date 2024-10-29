@@ -13,38 +13,61 @@ import {
   ChevronRightIcon,
   Upload,
 } from "lucide-react";
+import DialogBox from "./dialogBox/DialogBox";
+import ImageCrop from "./imageCrop/ImageCrop";
+import { updateImgProfile } from "../api/user.api";
+import useRegisterErrorHook from "../utils/handleError.hook";
+import useLoginSuccessHook from "../utils/handleSuccess.hook";
+import { updateUserProfile } from "../utils/cacheHandle";
+import { useUser } from "../contexts/userContext";
+import useLoading from "../stores/loading";
 
-const ProfileHeader = ({ user, onEditProfile, isEdit, cb }) => {
+const ProfileHeader = ({ user, onEditProfile, changeUser }) => {
+  const { showToast } = useRegisterErrorHook();
+  const { showSuccess } = useLoginSuccessHook();
+  const { startLoading, stopLoading } = useLoading();
+
+  const onUpdate = async (uploadedImage) => {
+    try {
+      startLoading();
+      const res = await updateImgProfile(uploadedImage);
+      if (res.result) {
+        changeUser(res.result);
+        updateUserProfile({ ...user, imgProfile: res.result });
+        showSuccess("change profile picture success");
+      }
+    } catch (err) {
+      showToast(err);
+    } finally {
+      stopLoading();
+    }
+  };
   return (
     <HStack
-      spacing={8}
+      spacing={{ base: 1, sm: 7 }}
+      justifyContent={"space-between"}
       align="center"
       w="full"
       flexDirection={{ base: "column", sm: "row" }}
     >
-      <Box position={"relative"}>
-        <Avatar size="2xl" name={user.username} src={user.avatar} />
-        {/* <Button
-          borderRadius={"50%"}
-          position={"absolute"}
-          bottom={0}
-          right={0}
-          p={0}
-          bg="rgba(255, 255, 255, 0.5)"
-          backdropFilter="blur(10px)"
-          _hover={{
-            bg: "rgba(255, 255, 255, 0.8)",
-          }}
-          onClick={cb}
-        >
-          {<Upload size={15} />}
-        </Button> */}
+      <Box>
+        <ImageCrop
+          username={user.username}
+          currentAvatarUrl={user.imgProfile}
+          onUpdate={onUpdate}
+        />
       </Box>
-      <VStack align="start" spacing={2}>
+
+      <VStack
+        align={{ base: "center", sm: "start" }}
+        spacing={2}
+        width={"100%"}
+      >
         <Heading as="h2" size="xl">
           {user.username}
         </Heading>
         <Text color="gray.500">{user.email}</Text>
+        {user.bio && <DialogBox message={user.bio} />}
         <Button leftIcon={<EditIcon />} onClick={onEditProfile}>
           Edit Profile
         </Button>

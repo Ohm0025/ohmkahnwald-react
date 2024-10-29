@@ -35,6 +35,14 @@ export function saveStoredUserData(userObj) {
   );
 }
 
+export function updateUserProfile(updatedData) {
+  sessionStorage.setItem(CACHE_KEY, JSON.stringify({ ...updatedData }));
+  sessionStorage.setItem(
+    EXPIRATION_KEY,
+    new Date().getTime() + Number(EXPIRATION_EXPIRE)
+  );
+}
+
 export function removeStoredUserData() {
   sessionStorage.removeItem(CACHE_KEY);
   sessionStorage.removeItem(EXPIRATION_KEY);
@@ -64,8 +72,15 @@ export function getUserPostsCache() {
   return JSON.parse(userPosts);
 }
 
-export function updateUserPostsCache(newUserPostArr) {
-  sessionStorage.setItem(USER_POSTS, JSON.stringify(newUserPostArr));
+export function updateUserPostsCache(newUserPost) {
+  const userPosts = sessionStorage.getItem(USER_POSTS);
+  const updatedPosts = JSON.parse(userPosts).map((item) => {
+    if (item.postBlogId === newUserPost.postBlogId) {
+      return newUserPost;
+    }
+    return item;
+  });
+  sessionStorage.setItem(USER_POSTS, JSON.stringify(updatedPosts));
   sessionStorage.setItem(
     USER_POSTS_TIME,
     new Date().getTime() + Number(USER_POSTS_RE_TIME)

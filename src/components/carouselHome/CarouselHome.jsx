@@ -17,22 +17,10 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { htmlToPlainText } from "../../utils/formatText";
 
 const CarouselHome = () => {
-  const { posts, fetchPosts } = useCarouselHome();
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const { posts, fetchPosts, nextSlide, prevSlide, currentIndex } =
+    useCarouselHome();
   const bgColor = useColorModeValue("gray.500", "gray.700");
   const arrowColor = useColorModeValue("gray.800", "white");
-
-  const nextSlide = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex === posts.length - 1 ? 0 : prevIndex + 1
-    );
-  };
-
-  const prevSlide = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex === 0 ? posts.length - 1 : prevIndex - 1
-    );
-  };
 
   useEffect(() => {
     fetchPosts();
@@ -71,6 +59,7 @@ const CarouselHome = () => {
                 title={item.title}
                 excerpt={htmlToPlainText(item.content, 20)}
                 imageUrl={item.thumbnail}
+                postBlogId={item.postBlogId}
               />
             </Box>
           ))}
@@ -88,14 +77,14 @@ const CarouselHome = () => {
             bg="transparent"
             _hover={{ bg: "blackAlpha.300" }}
           >
-            <ChevronLeft boxSize={6} />
+            <ChevronLeft boxsize={6} />
           </Button>
           <Button
             onClick={nextSlide}
             bg="transparent"
             _hover={{ bg: "blackAlpha.300" }}
           >
-            <ChevronRight boxSize={6} />
+            <ChevronRight boxsize={6} />
           </Button>
         </Flex>
       </Box>

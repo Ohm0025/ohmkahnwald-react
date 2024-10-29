@@ -55,12 +55,16 @@ const useLoginPage = () => {
             username: data.username,
             email: data.email,
             isVerified: data.isVerified,
+            bio: data.bio,
+            imgProfile: data.imgProfile,
           });
           setUser(() => {
             return {
               username: data.username,
               email: data.email,
               isVerified: data.isVerified,
+              bio: data.bio,
+              imgProfile: data.imgProfile,
             };
           });
           showSuccess(data.message, data.des);

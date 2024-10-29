@@ -9,6 +9,7 @@ import CreatePostPage from "./pages/createpostpage/CreatePostPage";
 import VerifyEmailPage from "./pages/verifypage/VerifyPage";
 import SocialPage from "./pages/socialpage/SocialPage";
 import ChatPage from "./pages/chatpage/ChatPage";
+import NotFoundPage from "./pages/notFoundPage/NotFoundPage";
 
 const mainRouter = createBrowserRouter([
   {
@@ -51,11 +52,15 @@ const mainRouter = createBrowserRouter([
       //   path: "social-page",
       //   element: <SocialPage />,
       // },
-      // {
-      //   path: "chat",
-      //   element: <ChatPage />,
-      // },
+      {
+        path: "chat",
+        element: <ChatPage />,
+      },
     ],
+  },
+  {
+    path: "*",
+    element: <NotFoundPage />,
   },
 ]);
 

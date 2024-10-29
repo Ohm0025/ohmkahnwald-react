@@ -55,6 +55,7 @@ const Header = () => {
                 <HeaderDropdownMenu
                   userName={user.username}
                   userEmail={user.email}
+                  imgProfile={user.imgProfile}
                 />
               ) : (
                 <Link href="/login">Sign in</Link>

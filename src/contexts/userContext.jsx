@@ -20,7 +20,6 @@ export const useUser = function () {
 
 export default function UserProvider({ children }) {
   const [user, setUser] = useState(() => getStoredUserData());
-  const { startLoading, stopLoading } = useLoading();
   const { showToast } = useRegisterErrorHook();
 
   const fetchUserData = async () => {
@@ -28,21 +27,21 @@ export default function UserProvider({ children }) {
       if (user) {
         return;
       }
-      startLoading();
+
       const data = await getUser();
       setUser(() => {
         return { ...data.user };
       });
+
       if (user) {
         saveStoredUserData(user);
+
         return;
       }
       saveStoredUserData({});
       return;
     } catch (err) {
       showToast(err);
-    } finally {
-      stopLoading();
     }
   };
 

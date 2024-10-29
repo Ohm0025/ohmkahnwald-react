@@ -9,20 +9,16 @@ const usePostPage = () => {
   const { currentPostBlogId, setCurrentPost } = useCurrentPost();
   const fetchCurrentPost = async () => {
     try {
-      startLoading();
       const data = await getCurrentPost(postBlogId);
       setCurrentPost(data.post);
     } catch (err) {
       console.error(err);
-    } finally {
-      stopLoading();
     }
   };
 
   return {
     fetchCurrentPost,
     currentPostBlogId,
-    isLoading,
   };
 };
 

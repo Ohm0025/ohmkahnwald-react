@@ -9,6 +9,7 @@ const useRegisterPage = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPass, setConfirmPass] = useState("");
   const [errors, setErrors] = useState({});
   const { startLoading, stopLoading } = useLoading();
   const { showToast } = useRegisterErrorHook();
@@ -27,6 +28,9 @@ const useRegisterPage = () => {
       newErrors.password = "Password must be at least 8 characters long";
     } else if (!password) {
       newErrors.password = "Password is required";
+    }
+    if (confirmPass !== password) {
+      newErrors.confirmPass = "confirmed password must match password";
     }
     if (!email.match(emailPattern)) {
       newErrors.email = "Invalid email address";
@@ -62,6 +66,8 @@ const useRegisterPage = () => {
     setPassword,
     email,
     setEmail,
+    confirmPass,
+    setConfirmPass,
     errors,
     validateForm,
     navigate,

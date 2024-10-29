@@ -62,3 +62,10 @@ export function htmlToPlainText(htmlString, wordLimit = null) {
 
   return text;
 }
+
+export function limitWordCount(text, limitCount = 0) {
+  if (text.length > limitCount) {
+    return text.split("").slice(0, limitCount).join("") + "...";
+  }
+  return text;
+}

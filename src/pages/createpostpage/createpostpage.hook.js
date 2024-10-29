@@ -9,6 +9,7 @@ import useCurrentPost from "../../stores/currentPost";
 import { useNavigate, useParams } from "react-router-dom";
 import useLoading from "../../stores/loading";
 import useRegisterErrorHook from "../../utils/handleError.hook";
+import { updateUserPostsCache } from "../../utils/cacheHandle";
 
 const useCreatePostPage = (edited) => {
   const [title, setTitle] = useState("");
@@ -80,8 +81,11 @@ const useCreatePostPage = (edited) => {
         if (data.post) {
           showSuccess("Create Blog Success", "now your blog ready to read");
           setCurrentPost(data.post);
-          setCurrentPostBlogId(data.post.postBlogId);
-          window.open("/post/" + data.post.postBlogId, "_self");
+          setCurrentPostBlogId(data.post?.postBlogId);
+          if (edited) {
+            updateUserPostsCache(data.post);
+          }
+          window.open("/post/" + data.post?.postBlogId, "_self");
         }
       }
     } catch (err) {

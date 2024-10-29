@@ -7,11 +7,15 @@ import {
   FormErrorMessage,
   Heading,
   Input,
+  InputRightElement,
   VStack,
   Text,
   useColorModeValue,
+  InputGroup,
 } from "@chakra-ui/react";
+import { Eye, EyeOff } from "lucide-react";
 import useRegisterPage from "./registerpage.hook";
+import { useState } from "react";
 
 const RegisterPage = () => {
   const {
@@ -21,10 +25,14 @@ const RegisterPage = () => {
     setUsername,
     password,
     setPassword,
+    confirmPass,
+    setConfirmPass,
     email,
     setEmail,
     navigate,
   } = useRegisterPage();
+
+  const [showPass, setShowPass] = useState(false);
 
   return (
     <Box
@@ -71,15 +79,41 @@ const RegisterPage = () => {
               </FormControl>
               <FormControl isInvalid={!!errors.password}>
                 <FormLabel htmlFor="password">Password</FormLabel>
-                <Input
-                  id="password"
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="Enter a password (min. 8 characters)"
-                  borderColor={errors.password ? "red.500" : "inherit"}
-                />
+                <InputGroup>
+                  <Input
+                    id="password"
+                    type={showPass ? "text" : "password"}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="Enter a password"
+                    borderColor={errors.password ? "red.500" : "inherit"}
+                  />
+                  <InputRightElement width={"3rem"}>
+                    <Button
+                      h="1rem"
+                      background={"none"}
+                      size="sm"
+                      p={0}
+                      _hover={{ background: "none" }}
+                      onClick={() => setShowPass(!showPass)}
+                    >
+                      {showPass ? <EyeOff /> : <Eye />}
+                    </Button>
+                  </InputRightElement>
+                </InputGroup>
                 <FormErrorMessage>{errors.password}</FormErrorMessage>
+              </FormControl>
+              <FormControl isInvalid={!!errors.confirmPass}>
+                <FormLabel htmlFor="confirmPass">Confirmed Password</FormLabel>
+                <Input
+                  id="confirmPass"
+                  type="password"
+                  value={confirmPass}
+                  onChange={(e) => setConfirmPass(e.target.value)}
+                  placeholder="Confirm Password"
+                  borderColor={errors.confirmPass ? "red.500" : "inherit"}
+                />
+                <FormErrorMessage>{errors.confirmPass}</FormErrorMessage>
               </FormControl>
               <Button type="submit" colorScheme="blue" width="full" mt={4}>
                 Sign Up

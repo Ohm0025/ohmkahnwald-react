@@ -1,10 +1,17 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import { Box } from "@chakra-ui/react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import LoadingSpinner from "../components/LoadingSpinner";
+import { useEffect } from "react";
+import SearchBar from "../components/searchBar/SearchBar";
 
 const HomeLayout = () => {
+  const location = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    console.log(location);
+  }, []);
   return (
     <Box
       minW={"320px"}
@@ -13,6 +20,7 @@ const HomeLayout = () => {
     >
       <Header />
       <>
+        {location.pathname === "/chat" && <SearchBar />}
         <Outlet />
         <LoadingSpinner />
       </>

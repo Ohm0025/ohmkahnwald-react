@@ -8,7 +8,7 @@ import {
   Button,
 } from "@chakra-ui/react";
 
-const CarouselItem = ({ title, excerpt, imageUrl }) => (
+const CarouselItem = ({ title, excerpt, imageUrl, postBlogId }) => (
   <Box w="full" h="full">
     <Flex direction={{ base: "column", md: "row" }} h="full">
       <Image
@@ -30,7 +30,14 @@ const CarouselItem = ({ title, excerpt, imageUrl }) => (
           {title}
         </Heading>
         <Text fontSize="lg">{excerpt}</Text>
-        <Button colorScheme="blue">Read More</Button>
+        <Button
+          colorScheme="blue"
+          onClick={() => {
+            window.open("/post/" + postBlogId, "_self");
+          }}
+        >
+          Read More
+        </Button>
       </VStack>
     </Flex>
   </Box>

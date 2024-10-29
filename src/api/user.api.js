@@ -31,3 +31,13 @@ export const updateUser = async (updatedObj) => {
   const res = await api.patch("/user/updateProfile", { updatedObj });
   return res.data;
 };
+
+export const updateImgProfile = async (uploadedImage) => {
+  const formData = new FormData();
+  formData.append("image", uploadedImage);
+  const res = await api.patch("/user/updateImgProfile", formData, {
+    headers: { "Content-Type": "multipart/form-data" },
+    withCredentials: true,
+  });
+  return res.data;
+};

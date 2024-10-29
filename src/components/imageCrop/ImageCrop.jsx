@@ -13,10 +13,11 @@ import {
   Input,
   Avatar,
 } from "@chakra-ui/react";
+import { Upload } from "lucide-react";
 import Cropper from "react-easy-crop";
 import useImageCrop from "./imageCrop.hook";
 
-const ImageCrop = ({ currentAvatarUrl, onUpdate }) => {
+const ImageCrop = ({ username, currentAvatarUrl, onUpdate }) => {
   const {
     handleFileChange,
     handleCloseModal,
@@ -33,20 +34,23 @@ const ImageCrop = ({ currentAvatarUrl, onUpdate }) => {
   } = useImageCrop();
   return (
     <>
-      <VStack spacing={4} align="center">
-        <Avatar size="2xl" src={currentAvatarUrl} />
-        <Button as="label" htmlFor="profile-picture-upload" colorScheme="green">
-          Change Profile Picture
-          <Input
-            id="profile-picture-upload"
-            type="file"
-            accept="image/*"
-            onChange={handleFileChange}
-            hidden
-            ref={fileInputRef}
-          />
-        </Button>
-      </VStack>
+      <Box
+        as="label"
+        htmlFor="profile-picture-upload"
+        cursor={"pointer"}
+        background={"none"}
+        display={"block"}
+      >
+        <Avatar size="2xl" name={username} src={currentAvatarUrl} />
+        <Input
+          id="profile-picture-upload"
+          type="file"
+          accept="image/*"
+          onChange={handleFileChange}
+          hidden
+          ref={fileInputRef}
+        />
+      </Box>
 
       <Modal isOpen={isOpen} onClose={handleCloseModal} size="xl">
         <ModalOverlay />

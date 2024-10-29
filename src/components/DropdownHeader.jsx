@@ -21,7 +21,7 @@ import {
 } from "../utils/cacheHandle";
 import { useUser } from "../contexts/userContext";
 
-const HeaderDropdownMenu = ({ userName, userEmail }) => {
+const HeaderDropdownMenu = ({ userName, userEmail, imgProfile }) => {
   const bgColor = useColorModeValue("white", "gray.800");
   const hoverColor = useColorModeValue("gray.100", "gray.700");
   const navigate = useNavigate();
@@ -29,7 +29,7 @@ const HeaderDropdownMenu = ({ userName, userEmail }) => {
   return (
     <Menu>
       <MenuButton as={Button} colorScheme={"none"} p={0}>
-        <Avatar size="sm" name={userName} />
+        <Avatar size="sm" name={userName} src={imgProfile} />
       </MenuButton>
       <MenuList bg={bgColor}>
         <VStack
@@ -63,13 +63,6 @@ const HeaderDropdownMenu = ({ userName, userEmail }) => {
         >
           Create Blog
         </MenuItem>
-        {/* <MenuItem
-          icon={<HelpCircle size={18} />}
-          _hover={{ bg: hoverColor }}
-          onClick={() => navigate("/social-page")}
-        >
-          New Feeds
-        </MenuItem>
         <MenuItem
           icon={<HelpCircle size={18} />}
           _hover={{ bg: hoverColor }}
@@ -77,6 +70,14 @@ const HeaderDropdownMenu = ({ userName, userEmail }) => {
         >
           Chat
         </MenuItem>
+        {/* <MenuItem
+          icon={<HelpCircle size={18} />}
+          _hover={{ bg: hoverColor }}
+          onClick={() => navigate("/social-page")}
+        >
+          New Feeds
+        </MenuItem>
+
         <MenuItem icon={<HelpCircle size={18} />} _hover={{ bg: hoverColor }}>
           Friend
         </MenuItem> */}
@@ -89,7 +90,7 @@ const HeaderDropdownMenu = ({ userName, userEmail }) => {
             removeStoredUserData();
             removeUserPostCache();
             setUser(null);
-            navigate("/");
+            window.open("/", "_self");
           }}
         >
           Log Out

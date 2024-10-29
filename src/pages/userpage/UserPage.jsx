@@ -82,7 +82,15 @@ const UserProfilePage = () => {
               </HStack>
             </VStack>
           ) : (
-            <ProfileHeader user={user} onEditProfile={handleEditProfile} />
+            <ProfileHeader
+              user={user}
+              onEditProfile={handleEditProfile}
+              changeUser={(newImage) =>
+                setUser((prev) => {
+                  return { ...prev, imgProfile: newImage };
+                })
+              }
+            />
           )}
           <Tabs>
             <TabList>
@@ -104,7 +112,7 @@ const UserProfilePage = () => {
                     totalPages={totalPages}
                   />
                 ) : (
-                  <Box>Empthy Posts</Box>
+                  <Box minH={"40vh"}>Empthy Posts</Box>
                 )}
               </TabPanel>
               <TabPanel>

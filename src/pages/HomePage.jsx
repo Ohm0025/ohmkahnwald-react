@@ -7,9 +7,8 @@ const HomePage = () => {
   return (
     <Box>
       <Hero />
-      <Advertisement />
+      <Advertisement slot={"4014328908"} />
       <FeaturedPosts />
-      <Advertisement />
     </Box>
   );
 };

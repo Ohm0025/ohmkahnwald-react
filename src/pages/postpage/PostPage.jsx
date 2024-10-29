@@ -1,4 +1,4 @@
-import { Box, Container, VStack } from "@chakra-ui/react";
+import { Box, Container, VStack, Wrap, Spinner } from "@chakra-ui/react";
 import PostHeader from "../../components/PostHeader";
 import PostContent from "../../components/PostContent";
 import CommentSection from "../../components/CommentSection";
@@ -8,21 +8,25 @@ import useCurrentPost from "../../stores/currentPost";
 import Advertisement from "../../components/advertisement/Advertisement";
 
 const PostPage = () => {
-  const { currentPost, currentPostBlogId, isLoading } = useCurrentPost();
+  const { currentPost, currentPostBlogId } = useCurrentPost();
   const { fetchCurrentPost } = usePostPage();
 
   useEffect(() => {
     fetchCurrentPost();
   }, [currentPostBlogId]);
 
-  useEffect(() => {
-    if (window.adsbygoogle) {
-      (window.adsbygoogle = window.adsbygoogle || []).push({});
-    }
-  }, []);
-
   if (!currentPost) {
-    return <h1>Fetching Post</h1>;
+    return (
+      <Wrap
+        width={"100%"}
+        h={"500px"}
+        display={"flex"}
+        justifyContent={"center"}
+        alignItems={"center"}
+      >
+        <Spinner />
+      </Wrap>
+    );
   }
 
   return (
@@ -34,9 +38,9 @@ const PostPage = () => {
         date={currentPost.createdAt}
         readTime={currentPost.readTime}
       />
-      <Advertisement />
+
       <PostContent content={currentPost.content} />
-      <Advertisement />
+      <Advertisement slot={"4014328908"} />
       {/* <CommentSection /> */}
     </VStack>
   );
