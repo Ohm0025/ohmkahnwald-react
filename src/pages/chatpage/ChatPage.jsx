@@ -5,6 +5,7 @@ import {
   VStack,
   HStack,
   Text,
+  Button,
   Input,
   Avatar,
   IconButton,
@@ -13,11 +14,10 @@ import {
 } from "@chakra-ui/react";
 import { Send } from "lucide-react";
 import useChatPage from "./chatpage.hook";
+import ChatTab from "./ChatTab";
 
 const ChatPage = () => {
   const [selectedChat, setSelectedChat] = useState(null);
-  const bgColor = useColorModeValue("gray.100", "gray.700");
-  const hoverColor = useColorModeValue("gray.200", "gray.600");
 
   const { user, chats, handleSendMessage } = useChatPage();
 
@@ -29,92 +29,52 @@ const ChatPage = () => {
   }, [user]);
 
   return (
-    user &&
-    user.username && (
-      <Flex h="100vh" maxW="1200px" mx="auto">
-        {/* Conversation List */}
-        <Box w="300px" borderRight="1px" borderColor="gray.200" p={4}>
-          <Text fontSize="2xl" fontWeight="bold" mb={4}>
-            Chats
+    <Box display={"grid"} gridTemplateColumns={"1fr 0.01fr 2fr"}>
+      <VStack minH={"100vh"}>
+        {chats.map((item, index) => {
+          return (
+            <ChatTab
+              key={"chatTab-" + index}
+              username={item.username}
+              imgProfile={item.imgProfile}
+              lastDate={item.lastDate}
+            />
+          );
+        })}
+      </VStack>
+      <Divider orientation="vertical" />
+      <VStack minH={"100vh"} w={"100%"} px={4}>
+        <Flex
+          minH={"50vh"}
+          w={"100%"}
+          display={"flex"}
+          flexDirection={"column"}
+          overflowY={"auto"}
+          gap={{ base: 3, sm: 2 }}
+        >
+          <Text
+            backgroundColor={"aqua"}
+            padding={"0.5rem 1rem"}
+            borderRadius={"2xl"}
+            alignSelf={"flex-end"}
+          >
+            girosejisgjoisrjgog;s
           </Text>
-          <VStack align="stretch" spacing={2}>
-            {chats.map((chat) => (
-              <Box
-                key={chat.id}
-                p={2}
-                borderradius="md"
-                cursor="pointer"
-                bg={selectedChat?.id === chat.id ? bgColor : "transparent"}
-                _hover={{ bg: hoverColor }}
-                onClick={() => setSelectedChat(chat)}
-              >
-                <HStack spacing={3}>
-                  <Avatar name={chat.name} size="sm" />
-                  <Box>
-                    <Text fontWeight="bold">{chat.name}</Text>
-                    <Text fontSize="sm" color="gray.500">
-                      {chat.lastMessage}
-                    </Text>
-                  </Box>
-                </HStack>
-              </Box>
-            ))}
-          </VStack>
-        </Box>
-
-        {/* Chat Window */}
-        <Box flex={1} p={4}>
-          {selectedChat ? (
-            <VStack h="100%" justify="space-between">
-              <Box w="100%">
-                <HStack mb={4}>
-                  <Avatar name={selectedChat.name} size="sm" />
-                  <Text fontWeight="bold">{selectedChat.name}</Text>
-                </HStack>
-                <Divider mb={4} />
-                <VStack
-                  align="stretch"
-                  spacing={4}
-                  maxH="calc(100vh - 200px)"
-                  overflowY="auto"
-                >
-                  {selectedChat.messages.map((msg) => (
-                    <Box
-                      key={msg.id}
-                      alignSelf={
-                        msg.sender === "me" ? "flex-end" : "flex-start"
-                      }
-                      bg={msg.sender === "me" ? "blue.500" : bgColor}
-                      color={msg.sender === "me" ? "white" : "black"}
-                      borderradius="lg"
-                      p={2}
-                      maxW="70%"
-                    >
-                      <Text>{msg.text}</Text>
-                    </Box>
-                  ))}
-                </VStack>
-              </Box>
-              <HStack w="100%">
-                <Input
-                  placeholder="Type a message..."
-                  value={message}
-                  onChange={(e) => setMessage(e.target.value)}
-                  onKeyPress={(e) => e.key === "Enter" && handleSendMessage()}
-                />
-                <IconButton
-                  icon={<Send />}
-                  onClick={handleSendMessage}
-                  aria-label="Send message"
-                />
-              </HStack>
-            </VStack>
-          ) : (
-            <Text>Select a chat to start messaging</Text>
-          )}
-        </Box>
-      </Flex>
-    )
+          <Text
+            backgroundColor={"gray"}
+            padding={"0.5rem 1rem"}
+            borderRadius={"2xl"}
+            alignSelf={"flex-start"}
+          >
+            girosejisgjoisrjgog;s
+          </Text>
+        </Flex>
+        <HStack w={"100%"}>
+          <Input />
+          <Button>Send</Button>
+        </HStack>
+      </VStack>
+    </Box>
   );
 };
 

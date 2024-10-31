@@ -10,6 +10,8 @@ import VerifyEmailPage from "./pages/verifypage/VerifyPage";
 import SocialPage from "./pages/socialpage/SocialPage";
 import ChatPage from "./pages/chatpage/ChatPage";
 import NotFoundPage from "./pages/notFoundPage/NotFoundPage";
+import AboutPage from "./pages/aboutpage/AboutPage";
+import TestTranslatePage from "./pages/testTranslatePage/TestTranslatePage";
 
 const mainRouter = createBrowserRouter([
   {
@@ -55,6 +57,14 @@ const mainRouter = createBrowserRouter([
       {
         path: "chat",
         element: <ChatPage />,
+      },
+      {
+        path: "about",
+        element: <AboutPage />,
+      },
+      {
+        path: "test",
+        element: <TestTranslatePage />,
       },
     ],
   },

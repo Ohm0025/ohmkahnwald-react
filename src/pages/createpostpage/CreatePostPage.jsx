@@ -117,7 +117,7 @@ const CreatePostPage = ({ edited }) => {
               <FormErrorMessage>{errors.content}</FormErrorMessage>
             </FormControl>
 
-            <FormControl>
+            {/* <FormControl>
               <FormLabel htmlFor="tags">Tags</FormLabel>
               <HStack>
                 <Input
@@ -127,8 +127,8 @@ const CreatePostPage = ({ edited }) => {
                   placeholder="Add tags"
                 />
                 <Button onClick={handleAddTag}>Add Tag</Button>
-              </HStack>
-              <HStack spacing={2} mt={2}>
+              </HStack> */}
+            {/* <HStack spacing={2} mt={2}>
                 {tags.map((tag, index) => (
                   <Tag
                     key={index}
@@ -141,8 +141,8 @@ const CreatePostPage = ({ edited }) => {
                     <TagCloseButton onClick={() => handleRemoveTag(tag)} />
                   </Tag>
                 ))}
-              </HStack>
-            </FormControl>
+              </HStack> 
+          </FormControl> */}
 
             <FormControl>
               <FormLabel htmlFor="image">Blog Thumbnail</FormLabel>

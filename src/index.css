@@ -23,6 +23,10 @@
   font-size: 0.95rem;
 }
 
+.ql-editor.ql-blank::before {
+  color: #4e5058;
+}
+
 .ql-editor > p img {
   display: inline;
 }

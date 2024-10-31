@@ -41,3 +41,8 @@ export const updateImgProfile = async (uploadedImage) => {
   });
   return res.data;
 };
+
+export const onQueryUser = async (search) => {
+  const res = await api.get("/user/query-user?search=" + search);
+  return res.data;
+};

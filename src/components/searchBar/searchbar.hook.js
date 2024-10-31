@@ -1,12 +1,27 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { onQueryUser } from "../../api/user.api";
 
 const useSearchBar = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [isFocused, setIsFocused] = useState(false);
+  const [userList, setUserList] = useState([]);
 
-  const sampleUsernames = ["john_doe", "jane_smith", "alex123", "sarah.dev"];
+  const fetchUsername = async () => {
+    try {
+      const data = await onQueryUser(searchQuery);
+      console.log(data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
-  const filteredUsernames = sampleUsernames.filter((username) =>
+  useEffect(() => {
+    if (searchQuery) {
+      fetchUsername();
+    }
+  }, [searchQuery]);
+
+  const filteredUsernames = userList.filter((username) =>
     username.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
