@@ -1,34 +1,8 @@
 import { VStack, Flex, Text, HStack, Input, Button } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 
-const ChatBoard = ({ socket, handleSendMessage }) => {
+const ChatBoard = ({ oldChat, handleSendMessage }) => {
   const [inputMessage, setInputMessage] = useState("");
-  useEffect(() => {
-    if (socket) {
-      socket.on("message", (message) => {
-        console.log("message at socket on : " + message);
-      });
-      socket.on("loadMessage", (message) => {
-        console.log("loadMessage at socket on : " + message);
-      });
-      socket.on("activeUsers", (users) => {
-        console.log("active users at socket on : " + users);
-      });
-      socket.on("userJoined", (username) => {
-        console.log("userJoined at socket on : " + username);
-      });
-      socket.on("userLeft", (username) => {
-        console.log("user left at socket on : " + username);
-      });
-      return () => {
-        socket.off("message");
-        socket.off("loadMessage");
-        socket.off("activeUsers");
-        socket.off("userJoined");
-        socket.off("userLeft");
-      };
-    }
-  }, [socket]);
 
   return (
     <VStack minH={"100vh"} w={"100%"} px={4}>
@@ -46,7 +20,7 @@ const ChatBoard = ({ socket, handleSendMessage }) => {
           borderRadius={"2xl"}
           alignSelf={"flex-end"}
         >
-          girosejisgjoisrjgog;s
+          {oldChat}
         </Text>
         <Text
           backgroundColor={"gray"}
@@ -54,7 +28,7 @@ const ChatBoard = ({ socket, handleSendMessage }) => {
           borderRadius={"2xl"}
           alignSelf={"flex-start"}
         >
-          girosejisgjoisrjgog;s
+          {oldChat}
         </Text>
       </Flex>
       <HStack w={"100%"}>

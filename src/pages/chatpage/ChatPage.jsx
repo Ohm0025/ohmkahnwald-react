@@ -15,33 +15,47 @@ import {
 import { Send } from "lucide-react";
 import useChatPage from "./chatpage.hook";
 import ChatTab from "./ChatTab";
-import { io } from "socket.io-client";
 import ChatBoard from "./ChatBoard";
+import { io } from "socket.io-client";
 
 const ChatPage = () => {
   const [selectedChat, setSelectedChat] = useState(null);
+  const { user, chats } = useChatPage();
+  const [selectedUsername, setSelectedUsername] = useState("");
+  const [currentSocket, setCurrentSocket] = useState(null);
 
-  const [socket, setSocket] = useState(io(import.meta.env.VITE_API_CHAT));
+  const [oldChat, setOldChat] = useState("");
 
-  const { user, chats, handleSendMessage } = useChatPage(socket);
+  const handleSelectUsername = (username) => {
+    setSelectedUsername(username);
+    if (currentSocket) {
+      currentSocket.emit("selectUserToChat", username);
+    }
+  };
+
+  const handleSendMessage = (message) => {
+    currentSocket.emit("sendMessage", message);
+  };
 
   useEffect(() => {
+    const newSocket = io(import.meta.env.VITE_API_CHAT);
+    setCurrentSocket(newSocket);
     if (!user || !user.username) {
       window.open("/", "_self");
       return;
-    } else {
-      if (socket) {
-        socket.on("connection", (socketId) => {
-          console.log("connect to server : " + socketId);
-        });
-
-        socket.on("disconnect", () => {
-          console.log("disconnect from server");
-        });
-        return () => socket.close();
-      }
     }
-  }, [user, socket]);
+    newSocket.on("connect", () => {
+      console.log("user connect");
+    });
+    newSocket.on("disconnect", () => {
+      console.log("user disconnect");
+    });
+    newSocket.on("getOldMessages", (message) => {
+      setOldChat(message);
+    });
+
+    return () => newSocket.close();
+  }, [user]);
 
   return (
     <Box display={"grid"} gridTemplateColumns={"1fr 0.01fr 2fr"}>
@@ -53,13 +67,13 @@ const ChatPage = () => {
               username={item.username}
               imgProfile={item.imgProfile}
               lastDate={item.lastDate}
-              socket={socket}
+              handleSelectUsername={handleSelectUsername}
             />
           );
         })}
       </VStack>
       <Divider orientation="vertical" />
-      <ChatBoard socket={socket} handleSendMessage={handleSendMessage} />
+      <ChatBoard oldChat={oldChat} handleSendMessage={handleSendMessage} />
     </Box>
   );
 };

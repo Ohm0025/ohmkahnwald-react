@@ -8,14 +8,9 @@ import {
 } from "@chakra-ui/react";
 import { useEffect } from "react";
 
-const ChatTab = ({ imgProfile, username, lastDate, socket }) => {
+const ChatTab = ({ imgProfile, username, lastDate, handleSelectUsername }) => {
   const [isLargerThan620] = useMediaQuery("(min-width: 620px)");
 
-  const handleSelectTab = () => {
-    if (socket) {
-      socket.emit("join", username, "content");
-    }
-  };
   return (
     <Flex
       padding={1}
@@ -26,7 +21,7 @@ const ChatTab = ({ imgProfile, username, lastDate, socket }) => {
       _hover={{
         backgroundColor: "red",
       }}
-      onClick={() => handleSelectTab()}
+      onClick={() => handleSelectUsername(username)}
     >
       <Image src={imgProfile} borderRadius={"50%"} w={"4.3rem"} />
       <Box
