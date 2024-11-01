@@ -20,11 +20,14 @@ const samplechat = [
   },
 ];
 
-const useChatPage = () => {
+const useChatPage = (socket) => {
   const { user } = useUser();
   const [chats, setChats] = useState([...samplechat]);
-  const handleSendMessage = () => {
+  const handleSendMessage = (message) => {
     console.log("send message");
+    if (socket) {
+      socket.emit("sendMessage", message);
+    }
   };
   return {
     user,

@@ -15,18 +15,33 @@ import {
 import { Send } from "lucide-react";
 import useChatPage from "./chatpage.hook";
 import ChatTab from "./ChatTab";
+import { io } from "socket.io-client";
+import ChatBoard from "./ChatBoard";
 
 const ChatPage = () => {
   const [selectedChat, setSelectedChat] = useState(null);
 
-  const { user, chats, handleSendMessage } = useChatPage();
+  const [socket, setSocket] = useState(io(import.meta.env.VITE_API_CHAT));
+
+  const { user, chats, handleSendMessage } = useChatPage(socket);
 
   useEffect(() => {
     if (!user || !user.username) {
       window.open("/", "_self");
       return;
+    } else {
+      if (socket) {
+        socket.on("connection", (socketId) => {
+          console.log("connect to server : " + socketId);
+        });
+
+        socket.on("disconnect", () => {
+          console.log("disconnect from server");
+        });
+        return () => socket.close();
+      }
     }
-  }, [user]);
+  }, [user, socket]);
 
   return (
     <Box display={"grid"} gridTemplateColumns={"1fr 0.01fr 2fr"}>
@@ -38,42 +53,13 @@ const ChatPage = () => {
               username={item.username}
               imgProfile={item.imgProfile}
               lastDate={item.lastDate}
+              socket={socket}
             />
           );
         })}
       </VStack>
       <Divider orientation="vertical" />
-      <VStack minH={"100vh"} w={"100%"} px={4}>
-        <Flex
-          minH={"50vh"}
-          w={"100%"}
-          display={"flex"}
-          flexDirection={"column"}
-          overflowY={"auto"}
-          gap={{ base: 3, sm: 2 }}
-        >
-          <Text
-            backgroundColor={"aqua"}
-            padding={"0.5rem 1rem"}
-            borderRadius={"2xl"}
-            alignSelf={"flex-end"}
-          >
-            girosejisgjoisrjgog;s
-          </Text>
-          <Text
-            backgroundColor={"gray"}
-            padding={"0.5rem 1rem"}
-            borderRadius={"2xl"}
-            alignSelf={"flex-start"}
-          >
-            girosejisgjoisrjgog;s
-          </Text>
-        </Flex>
-        <HStack w={"100%"}>
-          <Input />
-          <Button>Send</Button>
-        </HStack>
-      </VStack>
+      <ChatBoard socket={socket} handleSendMessage={handleSendMessage} />
     </Box>
   );
 };
